@@ -41,7 +41,7 @@ const policyLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-100 mt-16 py-12">
+    <footer className="bg-white border-t border-gray-100 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Column 1: Branding & Social */}
