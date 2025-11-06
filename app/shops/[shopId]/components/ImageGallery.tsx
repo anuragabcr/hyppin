@@ -1,19 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import LightboxModal from "@/app/components/LightboxModal";
 
 // --- 1. Define Types ---
 interface GalleryImage {
   id: number;
   url: string;
   alt: string;
-}
-
-interface LightboxModalProps {
-  image: GalleryImage | null;
-  onClose: () => void;
 }
 
 // --- 2. Dummy Data ---
@@ -25,44 +21,6 @@ const DUMMY_IMAGES: GalleryImage[] = Array.from({ length: 35 }, (_, i) => ({
 
 const IMAGES_PER_PAGE = 15;
 const TOTAL_IMAGES = DUMMY_IMAGES.length;
-
-// --- 3. Modal Component ---
-const LightboxModal: React.FC<LightboxModalProps> = ({ image, onClose }) => {
-  if (!image) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-4xl max-h-full"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white bg-opacity-75 text-gray-800 hover:bg-opacity-100 transition-opacity"
-          aria-label="Close image viewer"
-        >
-          <X size={24} />
-        </button>
-
-        <Image
-          width={800}
-          height={600}
-          src={image.url}
-          alt={image.alt}
-          unoptimized
-          className="w-full h-auto max-h-[90vh] object-contain rounded-lg shadow-2xl"
-        />
-
-        <p className="text-white text-center mt-3 text-lg font-medium">
-          {image.alt}
-        </p>
-      </div>
-    </div>
-  );
-};
 
 // --- 4. Main Gallery Component ---
 const ImageGallery: React.FC = () => {
