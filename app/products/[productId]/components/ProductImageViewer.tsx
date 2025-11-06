@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import LightboxModal from "@/app/components/LightboxModal";
+import { useCart } from "@/app/context/CartContext";
 
 interface GalleryImage {
   id: number;
@@ -23,6 +24,7 @@ const ProductImageViewer = () => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [mainImage, setMainImage] = useState(IMAGE_URLS[0]);
   const [isLiked, setIsLiked] = useState(false);
+  const { addToCart } = useCart();
 
   return (
     <div className="flex flex-col md:flex-row gap-4 w-full bg-transparent">
@@ -91,9 +93,21 @@ const ProductImageViewer = () => {
 
         {/* --- Action Buttons --- */}
         <div className="mt-4 flex gap-4 w-full">
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-orange-500 text-white hover:bg-orange-600 transition-colors">
+          <button
+            onClick={() => {
+              addToCart({
+                id: "product1",
+                name: "Stylish Wall Clock",
+                price: 1999,
+                imageUrl: IMAGE_URLS[0],
+                quantity: 1,
+              });
+            }}
+            className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+          >
             🛒 ADD TO CART
           </button>
+
           <button className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-orange-600 text-white hover:bg-red-700 transition-colors">
             ⚡ BUY NOW
           </button>

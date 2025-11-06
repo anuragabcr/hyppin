@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { FilterProvider } from "./context/FilterContext";
 import { Analytics } from "@vercel/analytics/next";
+import { AppProviders } from "./context/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,11 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Analytics />
-        <FilterProvider>
+        <AppProviders>
           <Header />
           {children}
           <Footer />
-        </FilterProvider>
+        </AppProviders>
       </body>
     </html>
   );

@@ -66,7 +66,7 @@ const tabContent: Record<string, React.ReactNode> = {
 
 // --- 4. The Main Tabs Component ---
 const ShopTabs: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>("Overview");
+  const [activeTab, setActiveTab] = useState<string>("Order Online");
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

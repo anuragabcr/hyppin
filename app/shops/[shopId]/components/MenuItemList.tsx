@@ -4,6 +4,7 @@ import React from "react";
 import { Search, X, Clock, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "@/app/context/CartContext";
 
 // --- 1. Define Data Structures ---
 
@@ -391,6 +392,8 @@ const ItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
     minimumFractionDigits: 0,
   }).format(item.price);
 
+  const { addToCart } = useCart();
+
   return (
     <div className="flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0 group">
       {/* Text Content */}
@@ -437,6 +440,17 @@ const ItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
         {/* Add Button - positioned over the image like in the original image */}
         <button
           type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            addToCart({
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              imageUrl: item.imageUrl,
+              quantity: 1,
+            });
+          }}
           className="absolute bottom-1 left-1/2 transform -translate-x-1/2 px-4 py-1.5 bg-white border border-gray-300 text-green-600 font-bold text-sm rounded-lg shadow-lg hover:bg-gray-50 transition-colors"
         >
           ADD
