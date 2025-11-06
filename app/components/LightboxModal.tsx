@@ -41,7 +41,7 @@ const LightboxModal: React.FC<LightboxModalProps> = ({ image, onClose }) => {
           src={image.url}
           alt={image.alt}
           unoptimized
-          className="w-auto h-auto max-w-full max-h-[80vh] object-contain rounded-lg"
+          className="w-auto h-auto min-w-full min-h-[80vh] object-contain rounded-lg"
         />
         <p className="absolute bottom-4 text-center text-white text-lg font-medium">
           {image.alt}

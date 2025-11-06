@@ -3,10 +3,12 @@
 import React from "react";
 import { Search, X, Clock, Zap } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 // --- 1. Define Data Structures ---
 
 interface MenuItem {
+  id: string;
   name: string;
   price: number; // Stored as currency in INR
   sizeServes: string; // e.g., "450-500gms | Serves 1"
@@ -38,6 +40,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Trending Now",
         items: [
           {
+            id: "floral-summer-dress",
             name: "Floral Summer Dress",
             price: 1499,
             sizeServes: "Sizes XS–XL",
@@ -47,6 +50,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/FDE047/333?text=Dress",
           },
           {
+            id: "denim-jacket",
             name: "Slim Fit Denim Jacket",
             price: 2499,
             sizeServes: "Sizes S–XXL",
@@ -67,6 +71,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Shirts",
         items: [
           {
+            id: "checked-cotton-shirt",
             name: "Checked Cotton Shirt",
             price: 1199,
             sizeServes: "Sizes S–XXL",
@@ -76,6 +81,7 @@ const dummyMenuData: MenuCategory[] = [
               "https://placehold.co/100x100/3B82F6/FFF?text=Checked+Shirt",
           },
           {
+            id: "formal-white-shirt",
             name: "Formal White Shirt",
             price: 1399,
             sizeServes: "Sizes S–XXL",
@@ -90,6 +96,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Trousers & Jeans",
         items: [
           {
+            id: "chino-trousers",
             name: "Blue Stretch Denim Jeans",
             price: 1999,
             sizeServes: "Waist 28–38",
@@ -109,6 +116,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Tops & Tees",
         items: [
           {
+            id: "v-neck-linen-top",
             name: "V-Neck Linen Top",
             price: 899,
             sizeServes: "Sizes XS–XL",
@@ -118,6 +126,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/F9A8D4/FFF?text=Linen+Top",
           },
           {
+            id: "crop-graphic-tee",
             name: "Crop Graphic Tee",
             price: 699,
             sizeServes: "Sizes XS–L",
@@ -131,6 +140,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Dresses",
         items: [
           {
+            id: "maxi-floral-dress",
             name: "Maxi Floral Dress",
             price: 1599,
             sizeServes: "Sizes XS–XL",
@@ -151,6 +161,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Boys",
         items: [
           {
+            id: "cartoon-printed-tee",
             name: "Cartoon Printed Tee",
             price: 499,
             sizeServes: "Ages 4–12",
@@ -164,6 +175,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Girls",
         items: [
           {
+            id: "polka-dot-frock",
             name: "Polka Dot Frock",
             price: 899,
             sizeServes: "Ages 4–10",
@@ -183,6 +195,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Women's Ethnic",
         items: [
           {
+            id: "anarkali-kurta-set",
             name: "Anarkali Kurta Set",
             price: 2499,
             sizeServes: "Sizes XS–XXL",
@@ -191,6 +204,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/F59E0B/FFF?text=Anarkali",
           },
           {
+            id: "printed-saree",
             name: "Printed Saree",
             price: 1999,
             sizeServes: "Free Size",
@@ -204,6 +218,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Men's Ethnic",
         items: [
           {
+            id: "silk-kurta-pyjama",
             name: "Silk Kurta Pyjama",
             price: 2199,
             sizeServes: "Sizes S–XL",
@@ -223,6 +238,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Women",
         items: [
           {
+            id: "denim-jumpsuit",
             name: "Denim Jumpsuit",
             price: 1799,
             sizeServes: "Sizes XS–L",
@@ -231,6 +247,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/60A5FA/FFF?text=Jumpsuit",
           },
           {
+            id: "high-waist-shorts",
             name: "High Waist Shorts",
             price: 799,
             sizeServes: "Sizes XS–L",
@@ -250,6 +267,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Men's Footwear",
         items: [
           {
+            id: "running-sneakers",
             name: "Leather Loafers",
             price: 2199,
             sizeServes: "Sizes 6–11",
@@ -263,6 +281,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Women's Footwear",
         items: [
           {
+            id: "block-heel-sandals",
             name: "Block Heel Sandals",
             price: 1499,
             sizeServes: "Sizes 4–9",
@@ -282,6 +301,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Essentials",
         items: [
           {
+            id: "leather-belt",
             name: "Leather Belt",
             price: 899,
             sizeServes: "Free Size",
@@ -290,6 +310,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/78350F/FFF?text=Belt",
           },
           {
+            id: "aviator-sunglasses",
             name: "Sunglasses",
             price: 1299,
             sizeServes: "Unisex",
@@ -309,6 +330,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Fitness Gear",
         items: [
           {
+            id: "running-shoes",
             name: "Running Shoes",
             price: 2599,
             sizeServes: "Sizes 6–12",
@@ -317,6 +339,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/1D4ED8/FFF?text=Shoes",
           },
           {
+            id: "gym-tank-top",
             name: "Gym Tank Top",
             price: 799,
             sizeServes: "Sizes S–XL",
@@ -336,6 +359,7 @@ const dummyMenuData: MenuCategory[] = [
         name: "Men & Women",
         items: [
           {
+            id: "woolen-sweater",
             name: "Woolen Sweater",
             price: 1999,
             sizeServes: "Sizes S–XXL",
@@ -344,6 +368,7 @@ const dummyMenuData: MenuCategory[] = [
             imageUrl: "https://placehold.co/100x100/475569/FFF?text=Sweater",
           },
           {
+            id: "puffer-jacket",
             name: "Puffer Jacket",
             price: 2999,
             sizeServes: "Sizes M–XL",
@@ -505,8 +530,14 @@ const MenuItemList: React.FC = () => {
                   </h3>
                   {/* List of Items */}
                   <div className="divide-y divide-gray-100">
-                    {group.items.map((item, itemIndex) => (
-                      <ItemCard key={itemIndex} item={item} />
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={`/products/${item.id}`}
+                        className="block hover:scale-[1.02] transition-transform duration-300"
+                      >
+                        <ItemCard item={item} />
+                      </Link>
                     ))}
                   </div>
                 </div>

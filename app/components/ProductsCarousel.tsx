@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -163,12 +164,12 @@ const ProductsCarousel: React.FC = () => {
     <div className="w-full py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">Hot Fashion Trends</h2>
-        <a
-          href="#"
-          className="text-sm font-medium text-blue-600 hover:text-blue-700 hidden sm:block"
+        <Link
+          href="/products"
+          className="text-sm font-medium text-yellow-600 hover:text-yellow-700 hidden sm:block"
         >
-          View All &rarr;
-        </a>
+          View All Products &rarr;
+        </Link>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,11 +193,12 @@ const ProductsCarousel: React.FC = () => {
             }}
           >
             {recommendedProducts.map((product) => (
-              <div
+              <Link
                 key={product.id}
-                className="flex-shrink-0 w-[260px] mx-2 rounded-2xl border-[3px] border-yellow-400 bg-white shadow-lg overflow-hidden hover:scale-[1.03] transition-transform duration-300 m-3"
+                href={`/products/${product.id}`}
+                className="block hover:scale-[1.02] transition-transform duration-300"
               >
-                <a href="#" className="block">
+                <div className="flex-shrink-0 w-[260px] mx-2 rounded-2xl border-[3px] border-yellow-400 bg-white shadow-lg overflow-hidden hover:scale-[1.03] transition-transform duration-300 m-3">
                   <Image
                     width={220}
                     height={220}
@@ -205,24 +207,22 @@ const ProductsCarousel: React.FC = () => {
                     unoptimized
                     className="w-full h-[220px] object-cover"
                   />
-                </a>
 
-                <div className="pt-2 flex flex-col gap-0.5 mx-4 mb-2">
-                  <a href="#">
+                  <div className="pt-2 flex flex-col gap-0.5 mx-4 mb-2">
                     <h3 className="text-sm font-medium text-gray-800 hover:text-blue-600 truncate">
                       {product.title}
                     </h3>
-                  </a>
 
-                  <p className="text-xs text-gray-500">{product.author}</p>
+                    <p className="text-xs text-gray-500">{product.author}</p>
 
-                  <p className="text-xs text-gray-500">{product.format}</p>
+                    <p className="text-xs text-gray-500">{product.format}</p>
 
-                  <p className="text-base font-bold text-gray-900 mt-1">
-                    {product.price}
-                  </p>
+                    <p className="text-base font-bold text-gray-900 mt-1">
+                      {product.price}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

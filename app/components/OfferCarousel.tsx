@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -145,12 +146,12 @@ const OfferCarousel: React.FC = () => {
         <h2 className="text-3xl font-extrabold text-gray-900">
           🔥 Top Deals of the Day
         </h2>
-        <a
-          href="#"
+        <Link
+          href="/products"
           className="text-sm font-medium text-yellow-600 hover:text-yellow-700 hidden sm:block"
         >
           View All Products &rarr;
-        </a>
+        </Link>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

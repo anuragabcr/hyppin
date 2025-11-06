@@ -7,7 +7,7 @@ interface ProductPageProps {
   params: Promise<{ productId: string }>;
 }
 
-export default async function ShopPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { productId } = await params;
 
   if (!productId) return notFound();
