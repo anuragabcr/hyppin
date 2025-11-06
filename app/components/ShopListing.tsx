@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-// We need the star icon
+import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 
 // --- 1. Define the Data Structure ---
@@ -168,7 +168,13 @@ const ShopListing: React.FC = () => {
         {/* Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {fashionBrands.map((brand) => (
-            <ShopCard key={brand.id} brand={brand} />
+            <Link
+              key={brand.id}
+              href={`/${brand.id}`}
+              className="block hover:scale-[1.02] transition-transform duration-300"
+            >
+              <ShopCard brand={brand} />
+            </Link>
           ))}
         </div>
       </div>
