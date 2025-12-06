@@ -6,6 +6,7 @@ import Link from "next/link";
 interface ProfileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  setIsAuthModalOpen: (isOpen: boolean) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any | null;
 }
@@ -13,6 +14,7 @@ interface ProfileMenuProps {
 export default function ProfileMenu({
   isOpen,
   onClose,
+  setIsAuthModalOpen,
   user,
 }: ProfileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -41,13 +43,15 @@ export default function ProfileMenu({
       {!user ? (
         <>
           {/* Not Logged In */}
-          <Link
-            href="/login"
-            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
-            onClick={onClose}
+          <div
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
+            onClick={() => {
+              setIsAuthModalOpen(true);
+              onClose();
+            }}
           >
             Login
-          </Link>
+          </div>
         </>
       ) : (
         <>

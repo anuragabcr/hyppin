@@ -13,11 +13,13 @@ import FilterTabs from "./FilterTabs";
 import { useEffect, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import LocationSelectionModal from "./LocationSelectionModal";
+import AuthModal from "./AuthModal";
 
 export default function Header() {
   const { cart } = useCart();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [isProfileOpen, setProfileOpen] = useState(false);
   const user = null;
@@ -107,7 +109,7 @@ export default function Header() {
             {/* Profile Button */}
             <button
               onClick={() => setProfileOpen(!isProfileOpen)}
-              className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 transition"
+              className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer"
             >
               <HiOutlineUser className="h-6 w-6" />
               <span className="font-semibold">Profile</span>
@@ -118,6 +120,7 @@ export default function Header() {
               isOpen={isProfileOpen}
               onClose={() => setProfileOpen(false)}
               user={user}
+              setIsAuthModalOpen={setIsAuthModalOpen}
             />
           </div>
         </div>
@@ -129,6 +132,10 @@ export default function Header() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onLocationSelect={handleLocationSelect}
+      />
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
       />
     </header>
   );
