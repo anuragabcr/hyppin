@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, X, Clock, Zap } from "lucide-react";
+import { Search, X, Clock, Zap, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
@@ -11,13 +11,13 @@ import { useCart } from "@/app/context/CartContext";
 interface MenuItem {
   id: string;
   name: string;
-  price: number; // Stored as currency in INR
-  sizeServes: string; // e.g., "450-500gms | Serves 1"
-  description: string;
-  isVeg: boolean;
   imageUrl: string;
-  // Optional flag for the red icon seen on Chicken Bowl Biryani
-  isRecommended?: boolean;
+  price: number;
+  originalPrice: number;
+  discount: string;
+  isSponsored: boolean;
+  isAssured: boolean;
+  isHotDeal: boolean;
 }
 
 interface ItemGroup {
@@ -44,19 +44,22 @@ const dummyMenuData: MenuCategory[] = [
             id: "floral-summer-dress",
             name: "Floral Summer Dress",
             price: 1499,
-            sizeServes: "Sizes XS–XL",
-            description:
-              "Lightweight cotton dress with a flattering fit and fresh floral prints.",
-            isVeg: true, // treat as “gender-neutral” placeholder
+            originalPrice: 2199,
+            discount: "32% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/FDE047/333?text=Dress",
           },
           {
             id: "denim-jacket",
             name: "Slim Fit Denim Jacket",
             price: 2499,
-            sizeServes: "Sizes S–XXL",
-            description: "Classic blue denim jacket with modern detailing.",
-            isVeg: true,
+            originalPrice: 3499,
+            discount: "29% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl:
               "https://placehold.co/100x100/60A5FA/FFF?text=Denim+Jacket",
           },
@@ -64,6 +67,7 @@ const dummyMenuData: MenuCategory[] = [
       },
     ],
   },
+
   {
     id: "mens-clothing",
     title: "Men's Clothing",
@@ -75,9 +79,11 @@ const dummyMenuData: MenuCategory[] = [
             id: "checked-cotton-shirt",
             name: "Checked Cotton Shirt",
             price: 1199,
-            sizeServes: "Sizes S–XXL",
-            description: "Casual checked shirt made from breathable cotton.",
-            isVeg: true,
+            originalPrice: 1899,
+            discount: "37% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl:
               "https://placehold.co/100x100/3B82F6/FFF?text=Checked+Shirt",
           },
@@ -85,9 +91,11 @@ const dummyMenuData: MenuCategory[] = [
             id: "formal-white-shirt",
             name: "Formal White Shirt",
             price: 1399,
-            sizeServes: "Sizes S–XXL",
-            description: "Premium slim-fit formal shirt for office wear.",
-            isVeg: true,
+            originalPrice: 1999,
+            discount: "30% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl:
               "https://placehold.co/100x100/F3F4F6/333?text=White+Shirt",
           },
@@ -100,15 +108,18 @@ const dummyMenuData: MenuCategory[] = [
             id: "chino-trousers",
             name: "Blue Stretch Denim Jeans",
             price: 1999,
-            sizeServes: "Waist 28–38",
-            description: "Mid-rise slim fit jeans with stretch comfort fabric.",
-            isVeg: true,
+            originalPrice: 3499,
+            discount: "43% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/1E3A8A/FFF?text=Jeans",
           },
         ],
       },
     ],
   },
+
   {
     id: "womens-clothing",
     title: "Women's Clothing",
@@ -120,19 +131,22 @@ const dummyMenuData: MenuCategory[] = [
             id: "v-neck-linen-top",
             name: "V-Neck Linen Top",
             price: 899,
-            sizeServes: "Sizes XS–XL",
-            description:
-              "Soft linen top with short sleeves and comfortable fit.",
-            isVeg: true,
+            originalPrice: 1399,
+            discount: "36% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/F9A8D4/FFF?text=Linen+Top",
           },
           {
             id: "crop-graphic-tee",
             name: "Crop Graphic Tee",
             price: 699,
-            sizeServes: "Sizes XS–L",
-            description: "Trendy crop tee with bold graphic print.",
-            isVeg: true,
+            originalPrice: 1199,
+            discount: "42% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/F43F5E/FFF?text=Crop+Tee",
           },
         ],
@@ -144,16 +158,18 @@ const dummyMenuData: MenuCategory[] = [
             id: "maxi-floral-dress",
             name: "Maxi Floral Dress",
             price: 1599,
-            sizeServes: "Sizes XS–XL",
-            description:
-              "Flowy floral printed maxi dress ideal for brunches and vacations.",
-            isVeg: true,
+            originalPrice: 2599,
+            discount: "38% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/FDE047/333?text=Maxi+Dress",
           },
         ],
       },
     ],
   },
+
   {
     id: "kids-fashion",
     title: "Kids' Fashion",
@@ -165,9 +181,11 @@ const dummyMenuData: MenuCategory[] = [
             id: "cartoon-printed-tee",
             name: "Cartoon Printed Tee",
             price: 499,
-            sizeServes: "Ages 4–12",
-            description: "Cotton T-shirt with fun cartoon graphics.",
-            isVeg: true,
+            originalPrice: 899,
+            discount: "44% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/22C55E/FFF?text=Kids+Tee",
           },
         ],
@@ -179,15 +197,18 @@ const dummyMenuData: MenuCategory[] = [
             id: "polka-dot-frock",
             name: "Polka Dot Frock",
             price: 899,
-            sizeServes: "Ages 4–10",
-            description: "Adorable sleeveless frock with bow detail.",
-            isVeg: true,
+            originalPrice: 1499,
+            discount: "40% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/F472B6/FFF?text=Frock",
           },
         ],
       },
     ],
   },
+
   {
     id: "ethnic-wear",
     title: "Ethnic Wear",
@@ -199,18 +220,22 @@ const dummyMenuData: MenuCategory[] = [
             id: "anarkali-kurta-set",
             name: "Anarkali Kurta Set",
             price: 2499,
-            sizeServes: "Sizes XS–XXL",
-            description: "Elegant cotton Anarkali with dupatta.",
-            isVeg: true,
+            originalPrice: 3499,
+            discount: "29% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/F59E0B/FFF?text=Anarkali",
           },
           {
             id: "printed-saree",
             name: "Printed Saree",
             price: 1999,
-            sizeServes: "Free Size",
-            description: "Light chiffon saree with subtle prints.",
-            isVeg: true,
+            originalPrice: 2999,
+            discount: "33% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/F97316/FFF?text=Saree",
           },
         ],
@@ -222,15 +247,18 @@ const dummyMenuData: MenuCategory[] = [
             id: "silk-kurta-pyjama",
             name: "Silk Kurta Pyjama",
             price: 2199,
-            sizeServes: "Sizes S–XL",
-            description: "Traditional festive kurta set in soft silk blend.",
-            isVeg: true,
+            originalPrice: 3199,
+            discount: "31% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/D97706/FFF?text=Kurta",
           },
         ],
       },
     ],
   },
+
   {
     id: "western-wear",
     title: "Western Wear",
@@ -242,24 +270,29 @@ const dummyMenuData: MenuCategory[] = [
             id: "denim-jumpsuit",
             name: "Denim Jumpsuit",
             price: 1799,
-            sizeServes: "Sizes XS–L",
-            description: "Stylish one-piece denim jumpsuit with belt.",
-            isVeg: true,
+            originalPrice: 2799,
+            discount: "36% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/60A5FA/FFF?text=Jumpsuit",
           },
           {
             id: "high-waist-shorts",
             name: "High Waist Shorts",
             price: 799,
-            sizeServes: "Sizes XS–L",
-            description: "Cotton shorts with front pleats and side pockets.",
-            isVeg: true,
+            originalPrice: 1399,
+            discount: "43% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/2563EB/FFF?text=Shorts",
           },
         ],
       },
     ],
   },
+
   {
     id: "footwear",
     title: "Footwear",
@@ -271,9 +304,11 @@ const dummyMenuData: MenuCategory[] = [
             id: "running-sneakers",
             name: "Leather Loafers",
             price: 2199,
-            sizeServes: "Sizes 6–11",
-            description: "Classic brown loafers made with genuine leather.",
-            isVeg: true,
+            originalPrice: 3499,
+            discount: "37% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/A16207/FFF?text=Loafers",
           },
         ],
@@ -285,15 +320,18 @@ const dummyMenuData: MenuCategory[] = [
             id: "block-heel-sandals",
             name: "Block Heel Sandals",
             price: 1499,
-            sizeServes: "Sizes 4–9",
-            description: "Comfortable heels for everyday wear.",
-            isVeg: true,
+            originalPrice: 2499,
+            discount: "40% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/FBBF24/333?text=Heels",
           },
         ],
       },
     ],
   },
+
   {
     id: "accessories",
     title: "Fashion Accessories",
@@ -305,24 +343,29 @@ const dummyMenuData: MenuCategory[] = [
             id: "leather-belt",
             name: "Leather Belt",
             price: 899,
-            sizeServes: "Free Size",
-            description: "Minimal design genuine leather belt.",
-            isVeg: true,
+            originalPrice: 1499,
+            discount: "40% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/78350F/FFF?text=Belt",
           },
           {
             id: "aviator-sunglasses",
             name: "Sunglasses",
             price: 1299,
-            sizeServes: "Unisex",
-            description: "UV-protected aviator sunglasses.",
-            isVeg: true,
+            originalPrice: 1999,
+            discount: "35% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/111827/FFF?text=Shades",
           },
         ],
       },
     ],
   },
+
   {
     id: "sportswear",
     title: "Activewear & Sports",
@@ -334,24 +377,29 @@ const dummyMenuData: MenuCategory[] = [
             id: "running-shoes",
             name: "Running Shoes",
             price: 2599,
-            sizeServes: "Sizes 6–12",
-            description: "Lightweight running shoes with soft cushioning.",
-            isVeg: true,
+            originalPrice: 3999,
+            discount: "35% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/1D4ED8/FFF?text=Shoes",
           },
           {
             id: "gym-tank-top",
             name: "Gym Tank Top",
             price: 799,
-            sizeServes: "Sizes S–XL",
-            description: "Breathable performance tank for workouts.",
-            isVeg: true,
+            originalPrice: 1299,
+            discount: "38% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/3B82F6/FFF?text=Tank+Top",
           },
         ],
       },
     ],
   },
+
   {
     id: "winterwear",
     title: "Winterwear",
@@ -363,18 +411,22 @@ const dummyMenuData: MenuCategory[] = [
             id: "woolen-sweater",
             name: "Woolen Sweater",
             price: 1999,
-            sizeServes: "Sizes S–XXL",
-            description: "Soft wool sweater with ribbed cuffs.",
-            isVeg: true,
+            originalPrice: 2999,
+            discount: "33% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: false,
             imageUrl: "https://placehold.co/100x100/475569/FFF?text=Sweater",
           },
           {
             id: "puffer-jacket",
             name: "Puffer Jacket",
             price: 2999,
-            sizeServes: "Sizes M–XL",
-            description: "Warm quilted jacket with zip closure and hood.",
-            isVeg: true,
+            originalPrice: 4999,
+            discount: "40% off",
+            isSponsored: false,
+            isAssured: true,
+            isHotDeal: true,
             imageUrl: "https://placehold.co/100x100/0F172A/FFF?text=Jacket",
           },
         ],
@@ -385,76 +437,167 @@ const dummyMenuData: MenuCategory[] = [
 
 // --- 3. Reusable Item Card Component ---
 
-const ItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
-  const formattedPrice = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    minimumFractionDigits: 0,
-  }).format(item.price);
+// const ItemCard: React.FC<{ item: MenuItem }> = ({ item }) => {
+//   const formattedPrice = new Intl.NumberFormat("en-IN", {
+//     style: "currency",
+//     currency: "INR",
+//     minimumFractionDigits: 0,
+//   }).format(item.price);
 
+//   const { addToCart } = useCart();
+
+//   return (
+//     <div className="flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0 group">
+//       {/* Text Content */}
+//       <div className="flex flex-col pr-4">
+//         {item.isRecommended && <Zap className="w-4 h-4 text-red-500 mb-1" />}
+
+//         {/* Veg/Non-Veg Icon */}
+//         <div className="flex items-center space-x-2 mb-1">
+//           <div
+//             className={`w-3.5 h-3.5 border-2 rounded-full flex items-center justify-center ${
+//               item.isVeg ? "border-green-500" : "border-red-500"
+//             }`}
+//           >
+//             <div
+//               className={`w-1.5 h-1.5 rounded-full ${
+//                 item.isVeg ? "bg-green-500" : "bg-red-500"
+//               }`}
+//             ></div>
+//           </div>
+//           <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+//         </div>
+
+//         {/* Price and Details */}
+//         <p className="text-gray-700 font-medium mb-1">{formattedPrice}</p>
+//         <p className="text-sm text-gray-500 mb-2">{item.sizeServes}</p>
+//         <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
+//       </div>
+
+//       {/* Image and Add Button */}
+//       <div className="relative flex-shrink-0 w-28 h-28 ml-2">
+//         <Image
+//           height={112}
+//           width={112}
+//           src={item.imageUrl}
+//           alt={item.name}
+//           unoptimized
+//           className="w-full h-full object-cover rounded-lg shadow-md"
+//           onError={(e) => {
+//             e.currentTarget.src = item.isVeg
+//               ? "https://placehold.co/100x100/A3E635/FFF?text=Veg"
+//               : "https://placehold.co/100x100/EF4444/FFF?text=NonVeg";
+//           }}
+//         />
+//         {/* Add Button - positioned over the image like in the original image */}
+//         <button
+//           type="button"
+//           onClick={(e) => {
+//             e.stopPropagation();
+//             e.preventDefault();
+//             addToCart({
+//               id: item.id,
+//               name: item.name,
+//               price: item.price,
+//               imageUrl: item.imageUrl,
+//               quantity: 1,
+//             });
+//           }}
+//           className="absolute bottom-1 left-1/2 transform -translate-x-1/2 px-4 py-1.5 bg-white border border-gray-300 text-green-600 font-bold text-sm rounded-lg shadow-lg hover:bg-gray-50 transition-colors"
+//         >
+//           ADD
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// --- Productcard Component ---
+const AssuredBadge = () => (
+  <span className="ml-1 text-blue-500 text-xs" title="Verified Assurance">
+    🛡️Assured
+  </span>
+);
+
+const ProductCard: React.FC<{ product: MenuItem }> = ({ product }) => {
   const { addToCart } = useCart();
+  const formatCurrency = (amount: number) =>
+    `₹${amount.toLocaleString("en-IN")}`;
+
+  const renderAddToCartButton = () => {
+    return (
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            imageUrl: product.imageUrl,
+            quantity: 1,
+          });
+        }}
+        className="bg-white text-green-600 border border-green-600 text-sm font-semibold rounded-lg shadow-md hover:bg-green-50 transition duration-150 flex items-center px-3 py-1.5 cursor-pointer"
+      >
+        <Plus className="w-4 h-4 ml-1" />
+      </button>
+    );
+  };
 
   return (
-    <div className="flex justify-between items-start py-4 border-b border-gray-100 last:border-b-0 group">
-      {/* Text Content */}
-      <div className="flex flex-col pr-4">
-        {item.isRecommended && <Zap className="w-4 h-4 text-red-500 mb-1" />}
+    <div className="bg-white border border-gray-100 rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden cursor-pointer h-full flex flex-col group">
+      <div className="relative w-full h-48 overflow-hidden">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          layout="fill"
+          objectFit="cover"
+          unoptimized={true}
+          className="transition duration-500 ease-in-out transform group-hover:scale-105"
+        />
 
-        {/* Veg/Non-Veg Icon */}
-        <div className="flex items-center space-x-2 mb-1">
-          <div
-            className={`w-3.5 h-3.5 border-2 rounded-full flex items-center justify-center ${
-              item.isVeg ? "border-green-500" : "border-red-500"
-            }`}
-          >
-            <div
-              className={`w-1.5 h-1.5 rounded-full ${
-                item.isVeg ? "bg-green-500" : "bg-red-500"
-              }`}
-            ></div>
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>
+        {/* Top-Right "Add" Button Overlay */}
+        <div className="absolute bottom-2 right-2 z-10">
+          {renderAddToCartButton()}
         </div>
 
-        {/* Price and Details */}
-        <p className="text-gray-700 font-medium mb-1">{formattedPrice}</p>
-        <p className="text-sm text-gray-500 mb-2">{item.sizeServes}</p>
-        <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
+        {/* Hot Deal Banner (Bottom-Left) */}
+        {product.isHotDeal && (
+          <div className="absolute bottom-2 left-2 bg-green-100 text-green-600 text-xs font-semibold px-2 py-0.5 rounded">
+            Hot Deal
+          </div>
+        )}
       </div>
 
-      {/* Image and Add Button */}
-      <div className="relative flex-shrink-0 w-28 h-28 ml-2">
-        <Image
-          height={112}
-          width={112}
-          src={item.imageUrl}
-          alt={item.name}
-          unoptimized
-          className="w-full h-full object-cover rounded-lg shadow-md"
-          onError={(e) => {
-            e.currentTarget.src = item.isVeg
-              ? "https://placehold.co/100x100/A3E635/FFF?text=Veg"
-              : "https://placehold.co/100x100/EF4444/FFF?text=NonVeg";
-          }}
-        />
-        {/* Add Button - positioned over the image like in the original image */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            addToCart({
-              id: item.id,
-              name: item.name,
-              price: item.price,
-              imageUrl: item.imageUrl,
-              quantity: 1,
-            });
-          }}
-          className="absolute bottom-1 left-1/2 transform -translate-x-1/2 px-4 py-1.5 bg-white border border-gray-300 text-green-600 font-bold text-sm rounded-lg shadow-lg hover:bg-gray-50 transition-colors"
-        >
-          ADD
-        </button>
+      {/* Product Details Area */}
+      <div className="p-4 flex flex-col flex-grow">
+        {/* Sponsored/Brand Tag */}
+        <p className="text-xs text-gray-500 mb-1">
+          {product.isSponsored && "Sponsored "}
+          {product.isSponsored && product.name.split(" ")[0]}{" "}
+          {/* Placeholder for Brand Name */}
+        </p>
+
+        {/* Title */}
+        <h3 className="text-base font-medium text-gray-800 line-clamp-2 mb-2 flex-grow">
+          {product.name}
+          {product.isAssured && <AssuredBadge />}
+        </h3>
+
+        {/* Pricing */}
+        <div className="flex items-center mt-auto">
+          <span className="text-xl font-bold text-gray-900 mr-2">
+            {formatCurrency(product.price)}
+          </span>
+          <span className="text-sm text-gray-500 line-through mr-2">
+            {formatCurrency(product.originalPrice)}
+          </span>
+          <span className="text-sm font-semibold text-green-600">
+            {product.discount}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -472,10 +615,8 @@ const MenuItemList: React.FC = () => {
       groups: category.groups
         .map((group) => ({
           ...group,
-          items: group.items.filter(
-            (item) =>
-              item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              item.description.toLowerCase().includes(searchTerm.toLowerCase()),
+          items: group.items.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()),
           ),
         }))
         .filter((group) => group.items.length > 0),
@@ -543,14 +684,14 @@ const MenuItemList: React.FC = () => {
                     {group.name}
                   </h3>
                   {/* List of Items */}
-                  <div className="divide-y divide-gray-100">
+                  <div className="divide-y divide-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                     {group.items.map((item) => (
                       <Link
                         key={item.id}
                         href={`/products/${item.id}`}
                         className="block hover:scale-[1.02] transition-transform duration-300"
                       >
-                        <ItemCard item={item} />
+                        <ProductCard product={item} />
                       </Link>
                     ))}
                   </div>

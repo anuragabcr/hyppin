@@ -1,16 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import {
-  Star,
-  MapPin,
-  Share2,
-  MessageSquareText,
-  CalendarPlus,
-  Info,
-  Phone,
-} from "lucide-react";
+import { Star, MapPin, Share2, MessageSquareText, Info } from "lucide-react";
 
 // --- 1. Define the Data Structure (TypeScript) ---
 interface ShopDetails {
@@ -104,15 +95,12 @@ const ActionButton: React.FC<{
   </button>
 );
 
-// --- 4. Main ShopHeader Component ---
 const ShopHeader: React.FC = () => {
-  const shop = dummyShopData; // Using dummy data
+  const shop = dummyShopData;
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4 md:p-8 bg-white">
-      {/* Top Section: Info & Ratings */}
       <div className="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-6">
-        {/* Left Side: Info */}
         <div className="space-y-2">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
             {shop.name}
@@ -129,17 +117,6 @@ const ShopHeader: React.FC = () => {
               <span>{shop.timings.hours}</span>
               <Info className="w-4 h-4 text-gray-400 cursor-pointer" />
             </div>
-            <div className="flex items-center gap-2 text-red-500">
-              <Phone className="w-4 h-4" />
-              <a href={`tel:${shop.phone}`} className="font-medium">
-                {shop.phone}
-              </a>
-              {shop.morePhoneCount > 0 && (
-                <span className="text-red-400 text-xs">
-                  +{shop.morePhoneCount} more
-                </span>
-              )}
-            </div>
           </div>
         </div>
 
@@ -149,11 +126,6 @@ const ShopHeader: React.FC = () => {
             score={shop.ratings.inStore.score}
             count={shop.ratings.inStore.count}
             label="In Store Ratings"
-          />
-          <RatingBlock
-            score={shop.ratings.online.score}
-            count={shop.ratings.online.count}
-            label="Delivery Ratings"
           />
         </div>
       </div>
@@ -166,55 +138,6 @@ const ShopHeader: React.FC = () => {
           icon={<MessageSquareText className="w-5 h-5" />}
           label="Reviews"
         />
-        <ActionButton
-          icon={<CalendarPlus className="w-5 h-5" />}
-          label="Book a table"
-        />
-      </div>
-
-      {/* Image Gallery */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 ">
-        {/* Main Image */}
-        <div className="md:col-span-2 w-full h-full">
-          <Image
-            height={450}
-            width={800}
-            src={shop.images[0]}
-            alt={`${shop.name} main view`}
-            unoptimized
-            className="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-
-        {/* Side Images */}
-        <div className="hidden md:grid grid-rows-2 gap-2 h-full">
-          <Image
-            height={225}
-            width={400}
-            src={shop.images[1]}
-            alt={`${shop.name} dining area`}
-            unoptimized
-            className="w-full h-full object-cover rounded-lg"
-          />
-          <div className="relative w-full h-full">
-            <Image
-              height={225}
-              width={400}
-              src={shop.images[2]}
-              alt={`${shop.name} interior`}
-              unoptimized
-              className="w-full h-full object-cover rounded-lg"
-            />
-            <button
-              type="button"
-              className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-lg group"
-            >
-              <span className="text-white text-lg font-semibold group-hover:underline">
-                View Gallery
-              </span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
