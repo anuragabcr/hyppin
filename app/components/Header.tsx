@@ -91,7 +91,7 @@ export default function Header() {
           {/* My Cart Button (Primary CTA) */}
           <button
             onClick={() => router.push("/cart")}
-            className="relative flex items-center justify-center h-12 px-5 bg-gray-200 text-gray-900 rounded-xl hover:bg-gray-300 transition font-semibold shadow-sm"
+            className="relative flex items-center justify-center h-12 px-5 bg-gray-200 text-gray-900 rounded-xl hover:bg-gray-300 transition font-semibold shadow-sm cursor-pointer"
           >
             <HiOutlineShoppingCart className="h-5 w-5 mr-2" />
             <span>My Cart</span>
