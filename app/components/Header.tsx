@@ -4,35 +4,61 @@ import Link from "next/link";
 import {
   HiOutlineShoppingCart,
   HiOutlineMagnifyingGlass,
+  HiOutlineUser,
 } from "react-icons/hi2";
 import { FaChevronDown } from "react-icons/fa";
-import { useCart } from "@/app/context/CartContext"; // ✅ Import your Cart context
+import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation";
 import FilterTabs from "./FilterTabs";
+import { useEffect, useState } from "react";
+import ProfileMenu from "./ProfileMenu";
+import LocationSelectionModal from "./LocationSelectionModal";
 
 export default function Header() {
   const { cart } = useCart();
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState("Select Location");
+  const [isProfileOpen, setProfileOpen] = useState(false);
+  const user = null;
+
+  const handleLocationSelect = (location: string) => {
+    setSelectedLocation(location);
+    setIsModalOpen(false);
+  };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    try {
+      const location = localStorage.getItem("last_location");
+      if (location) {
+        setSelectedLocation(location);
+      }
+    } catch (error) {
+      console.error("Failed to load location from local storage:", error);
+      setSelectedLocation("Select Location");
+    }
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="container mx-auto flex items-center h-20 px-4 sm:px-6 lg:px-8">
-        {/* --- Logo --- */}
         <div className="flex-shrink-0 mr-8">
           <Link href="/" className="text-3xl font-bold text-indigo-600">
             hyppin
           </Link>
         </div>
 
-        {/* --- Location Section (Desktop Only) --- */}
-        <div className="hidden lg:flex flex-col text-left mr-8 cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+        <div
+          className="hidden lg:flex flex-col text-left mr-8 cursor-pointer hover:bg-gray-50 p-2 rounded transition"
+          onClick={() => setIsModalOpen(true)}
+        >
           <p className="text-base font-bold text-gray-900">
             Delivery in 11 minutes
           </p>
           <div className="flex items-center text-sm text-gray-600">
-            <p>Bengaluru, Karnataka 560037</p>
+            <p>{selectedLocation}</p>
             <FaChevronDown className="ml-1 h-4 w-4" />
           </div>
         </div>
@@ -50,34 +76,60 @@ export default function Header() {
         </div>
 
         {/* --- Right Side --- */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-6">
+          {/* Become a Seller */}
           <Link
-            href="/login"
-            className="hidden sm:flex items-center text-base font-semibold text-gray-700 hover:text-indigo-600 transition p-2"
+            href="/become-seller"
+            className="hidden sm:flex items-center space-x-2 text-base font-semibold text-gray-700 hover:text-indigo-600 transition"
           >
-            Login
+            <span className="text-xl">🏬</span> {/* Replace with proper icon */}
+            <span>Become a Seller</span>
           </Link>
 
-          {/* --- My Cart Button --- */}
+          {/* My Cart Button (Primary CTA) */}
           <button
             onClick={() => router.push("/cart")}
-            className="relative flex items-center justify-center h-12 w-28 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 transition shadow-md"
+            className="relative flex items-center justify-center h-12 px-5 bg-gray-200 text-gray-900 rounded-xl hover:bg-gray-300 transition font-semibold shadow-sm"
           >
             <HiOutlineShoppingCart className="h-5 w-5 mr-2" />
-            <span className="font-semibold">My Cart</span>
+            <span>My Cart</span>
 
-            {/* --- Badge --- */}
+            {/* Badge */}
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-md">
                 {totalItems}
               </span>
             )}
           </button>
+
+          {/* Profile */}
+          <div className="relative">
+            {/* Profile Button */}
+            <button
+              onClick={() => setProfileOpen(!isProfileOpen)}
+              className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 transition"
+            >
+              <HiOutlineUser className="h-6 w-6" />
+              <span className="font-semibold">Profile</span>
+            </button>
+
+            {/* Dropdown Menu */}
+            <ProfileMenu
+              isOpen={isProfileOpen}
+              onClose={() => setProfileOpen(false)}
+              user={user}
+            />
+          </div>
         </div>
       </div>
 
-      {/* --- Filter Tabs --- */}
+      {/* --- Tabs & Modal --- */}
       <FilterTabs />
+      <LocationSelectionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onLocationSelect={handleLocationSelect}
+      />
     </header>
   );
 }

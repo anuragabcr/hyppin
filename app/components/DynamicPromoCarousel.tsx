@@ -85,7 +85,7 @@ const DynamicPromoCarousel: React.FC = () => {
             <div key={item.id} className="flex-shrink-0 w-full">
               <div className="relative">
                 {/* --- TOP BANNER --- */}
-                <div className={`relative ${item.cardBg}`}>
+                {/* <div className={`relative ${item.cardBg}`}>
                   <div className="h-48 flex flex-col justify-between p-4 sm:p-6 md:p-8 text-black">
                     <div className="flex justify-end items-center text-2xl sm:text-4xl font-extrabold text-gray-800 drop-shadow-lg">
                       {item.cashbackText}
@@ -101,7 +101,7 @@ const DynamicPromoCarousel: React.FC = () => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* --- MAIN CONTENT --- */}
                 <div
