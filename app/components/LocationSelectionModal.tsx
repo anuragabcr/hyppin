@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { HiOutlineMagnifyingGlass, HiOutlineMapPin } from "react-icons/hi2";
+import { useUI } from "../context/UIContext";
 
 interface LocationSelectionModalProps {
-  isOpen: boolean;
-  onClose: () => void;
   onLocationSelect: (location: string) => void;
 }
 
@@ -15,13 +14,12 @@ type LocationCache = {
 };
 
 const LocationSelectionModal: React.FC<LocationSelectionModalProps> = ({
-  isOpen,
-  onClose,
   onLocationSelect,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { isLocationModalOpen, setIsLocationModalOpen } = useUI();
 
-  if (!isOpen) return null;
+  if (!isLocationModalOpen) return null;
 
   const geocodeCoordinates = async (lat: number, lng: number) => {
     const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
@@ -128,7 +126,7 @@ const LocationSelectionModal: React.FC<LocationSelectionModalProps> = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={() => setIsLocationModalOpen(false)}
     >
       <div
         className="relative w-full max-w-lg p-6 bg-white rounded-xl shadow-2xl transition-all duration-300 ease-out transform translate-y-0"
@@ -173,7 +171,7 @@ const LocationSelectionModal: React.FC<LocationSelectionModalProps> = ({
         </div>
 
         <button
-          onClick={onClose}
+          onClick={() => setIsLocationModalOpen(false)}
           className="absolute p-1 text-gray-400 transition duration-150 ease-in-out rounded-full top-2 right-2 hover:bg-gray-100 hover:text-gray-600"
         >
           <svg

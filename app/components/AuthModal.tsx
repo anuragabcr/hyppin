@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-
-interface AuthModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { useUI } from "../context/UIContext";
 
 type AuthMode = "login" | "register";
 type AuthStage = "initial" | "otp";
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
-  // Global State for the flow
+const AuthModal = () => {
+  const { isAuthModalOpen, setIsAuthModalOpen } = useUI();
+
   const [stage, setStage] = useState<AuthStage>("initial");
-  const [mode, setMode] = useState<AuthMode>("register");
+  const [mode, setMode] = useState<AuthMode>("login");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -23,7 +20,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [otp, setOtp] = useState("");
   const [verificationToken, setVerificationToken] = useState("");
 
-  if (!isOpen) return null;
+  if (!isAuthModalOpen) return null;
 
   const resetModal = () => {
     setStage("initial");
@@ -102,7 +99,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       // Successful Auth: Save token and close
       console.log(data.token);
       resetModal();
-      onClose();
+      setIsAuthModalOpen(false);
     } catch (err: unknown) {
       if (err instanceof Error) {
         console.error(err.message);
@@ -177,7 +174,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             setMode(mode === "register" ? "login" : "register");
             setError("");
           }}
-          className="font-bold text-red-600 hover:underline"
+          className="font-bold text-red-600 hover:underline cursor-pointer"
         >
           {mode === "register" ? "Log In" : "Register Now"}
         </button>
@@ -237,7 +234,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     // Modal Backdrop
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={() => setIsAuthModalOpen(false)}
     >
       {/* Modal Content */}
       <div
@@ -256,7 +253,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
 
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={() => setIsAuthModalOpen(false)}
           className="absolute p-1 text-gray-400 transition duration-150 ease-in-out rounded-full top-2 right-2 hover:bg-gray-100 hover:text-gray-600"
         >
           &times;

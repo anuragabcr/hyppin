@@ -8,25 +8,27 @@ import {
 } from "react-icons/hi2";
 import { FaChevronDown } from "react-icons/fa";
 import { useCart } from "@/app/context/CartContext";
-import { useRouter } from "next/navigation";
 import FilterTabs from "./FilterTabs";
 import { useEffect, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import LocationSelectionModal from "./LocationSelectionModal";
 import AuthModal from "./AuthModal";
+import CartDrawer from "./CartDrawer";
+import { useUI } from "../context/UIContext";
 
 export default function Header() {
   const { cart } = useCart();
-  const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const {
+    setIsLocationModalOpen,
+    setIsCartModalOpen,
+    isProfileOpen,
+    setIsProfileOpen,
+  } = useUI();
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const [isProfileOpen, setProfileOpen] = useState(false);
-  const user = null;
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
-    setIsModalOpen(false);
+    setIsLocationModalOpen(false);
   };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -54,7 +56,7 @@ export default function Header() {
 
         <div
           className="hidden lg:flex flex-col text-left mr-8 cursor-pointer hover:bg-gray-50 p-2 rounded transition"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsLocationModalOpen(true)}
         >
           <p className="text-base font-bold text-gray-900">
             Delivery in 11 minutes
@@ -90,7 +92,7 @@ export default function Header() {
 
           {/* My Cart Button (Primary CTA) */}
           <button
-            onClick={() => router.push("/cart")}
+            onClick={() => setIsCartModalOpen(true)}
             className="relative flex items-center justify-center h-12 px-5 bg-gray-200 text-gray-900 rounded-xl hover:bg-gray-300 transition font-semibold shadow-sm cursor-pointer"
           >
             <HiOutlineShoppingCart className="h-5 w-5 mr-2" />
@@ -104,39 +106,24 @@ export default function Header() {
             )}
           </button>
 
-          {/* Profile */}
           <div className="relative">
-            {/* Profile Button */}
             <button
-              onClick={() => setProfileOpen(!isProfileOpen)}
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
               className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer"
             >
               <HiOutlineUser className="h-6 w-6" />
               <span className="font-semibold">Profile</span>
             </button>
-
-            {/* Dropdown Menu */}
-            <ProfileMenu
-              isOpen={isProfileOpen}
-              onClose={() => setProfileOpen(false)}
-              user={user}
-              setIsAuthModalOpen={setIsAuthModalOpen}
-            />
+            <ProfileMenu />
           </div>
         </div>
       </div>
 
       {/* --- Tabs & Modal --- */}
       <FilterTabs />
-      <LocationSelectionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onLocationSelect={handleLocationSelect}
-      />
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
+      <LocationSelectionModal onLocationSelect={handleLocationSelect} />
+      <AuthModal />
+      <CartDrawer />
     </header>
   );
 }
