@@ -15,21 +15,21 @@ interface SpecCategory {
 
 // --- 2. Dummy Data (Structured from the image) ---
 const SPEC_DATA: SpecCategory[] = [
-  {
-    title: "General",
-    items: [
-      { label: "Sales Package", value: "1 wall clock" },
-      { label: "Model Number", value: "SAA" },
-      {
-        label: "Model Name",
-        value:
-          "Beautiful 3D designer decorative attractive wall elegant premium wall clock",
-      },
-      { label: "Pack of", value: "1" },
-      { label: "Dial Color", value: "White" },
-      { label: "Net Quantity", value: "1" },
-    ],
-  },
+  // {
+  //   title: "General",
+  //   items: [
+  //     { label: "Sales Package", value: "1 wall clock" },
+  //     { label: "Model Number", value: "SAA" },
+  //     {
+  //       label: "Model Name",
+  //       value:
+  //         "Beautiful 3D designer decorative attractive wall elegant premium wall clock",
+  //     },
+  //     { label: "Pack of", value: "1" },
+  //     { label: "Dial Color", value: "White" },
+  //     { label: "Net Quantity", value: "1" },
+  //   ],
+  // },
   {
     title: "Warranty",
     items: [{ label: "Warranty Summary", value: "No Warranty Applicable" }],
@@ -76,14 +76,14 @@ const ProductSpecifications: React.FC = () => {
       ))}
 
       {/* Footer Link */}
-      <div className="pt-4 border-t border-gray-200">
+      {/* <div className="pt-4 border-t border-gray-200">
         <a
           href="#"
           className="text-blue-600 font-semibold hover:underline text-base"
         >
           Manufacturing, Packaging and Import Info
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };

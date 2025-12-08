@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Star, CheckCircle, Info, Truck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 // --- 1. Define Types ---
 
@@ -161,6 +162,38 @@ const ProductDescription = () => {
   const [selectedColor, setSelectedColor] = useState(
     PRODUCT_DATA.colorOptions[0],
   );
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+  const sizes = [
+    {
+      label: "S",
+      price: 1406,
+      originalPrice: 1499,
+      discount: "6% OFF",
+      stock: 0,
+    },
+    {
+      label: "M",
+      price: 1406,
+      originalPrice: 1499,
+      discount: "6% OFF",
+      stock: 10,
+    },
+    {
+      label: "L",
+      price: 1406,
+      originalPrice: 1499,
+      discount: "6% OFF",
+      stock: 5,
+    },
+    {
+      label: "XL",
+      price: 1406,
+      originalPrice: 1499,
+      discount: "6% OFF",
+      stock: 0,
+    },
+  ];
 
   const formattedPrice = (price: number): string =>
     new Intl.NumberFormat("en-IN", {
@@ -204,7 +237,7 @@ const ProductDescription = () => {
       </section>
 
       {/* --- B. Available Offers --- */}
-      <section className="pb-4 border-b border-gray-100">
+      {/* <section className="pb-4 border-b border-gray-100">
         <h2 className="text-base font-semibold text-gray-800 mb-3">
           Available offers
         </h2>
@@ -219,57 +252,66 @@ const ProductDescription = () => {
         >
           View {PRODUCT_DATA.availableOffers.length - 4} more offers
         </a>
-      </section>
+      </section> */}
 
       {/* --- C. Delivery & Color Selection --- */}
       <section className="pb-4 border-b border-gray-100 space-y-6">
-        {/* Warranty */}
-        <div className="flex items-center space-x-12">
-          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
-            Warranty
-          </h2>
-          <span className="text-base text-gray-800">
-            {PRODUCT_DATA.warranty}
-          </span>
-        </div>
+        {/* Prices options */}
+        <div className="flex flex-wrap gap-4 mt-4">
+          {sizes.map((size) => {
+            const isOutOfStock = size.stock === 0;
 
-        {/* Delivery Pincode Input */}
-        <div className="flex items-start space-x-12">
-          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
-            Delivery
-          </h2>
-          <div className="flex flex-col flex-grow">
-            <div className="flex border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
-              <input
-                type="text"
-                placeholder="Enter Delivery Pincode"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-                className="flex-grow p-2 text-sm focus:outline-none"
-              />
-              <button className="bg-white text-blue-500 font-semibold text-sm px-4 hover:bg-gray-50 transition-colors">
-                Check
-              </button>
-            </div>
-
-            {/* Delivery Details */}
-            <div className="text-sm mt-2">
-              <p className="flex items-center text-gray-800">
-                <Truck className="w-4 h-4 text-gray-600 mr-2" />
-                Delivery by 13 Nov, Thursday
-                <Info className="w-3 h-3 text-gray-400 ml-2" />
-              </p>
-              <p className="text-xs text-gray-500 ml-6">
-                if ordered before 5:59 PM
-              </p>
-              <a
-                href="#"
-                className="text-blue-500 font-medium text-xs ml-6 hover:underline mt-1 inline-block"
+            return (
+              <button
+                key={size.label}
+                disabled={isOutOfStock}
+                onClick={() => !isOutOfStock && setSelectedSize(size.label)}
+                className={`
+                  relative p-4 rounded-xl border text-left transition shadow-sm
+                
+                  ${
+                    selectedSize === size.label
+                      ? "!border-blue-500 !bg-green-100 shadow-md"
+                      : ""
+                  }
+                
+                  ${
+                    isOutOfStock
+                      ? "border-gray-300 text-gray-500 bg-gray-50 cursor-not-allowed"
+                      : "border-gray-300 hover:shadow-md bg-white cursor-pointer"
+                  }
+                `}
               >
-                View Details
-              </a>
-            </div>
-          </div>
+                {/* Discount Ribbon */}
+                {!isOutOfStock && (
+                  <span
+                    className="absolute -top-2 left-2 bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded shadow"
+                    style={{ borderRadius: "4px" }}
+                  >
+                    {size.discount}
+                  </span>
+                )}
+
+                {/* Text Content */}
+                <div>
+                  <p className="text-sm font-medium">{size.label}</p>
+
+                  {isOutOfStock ? (
+                    <p className="text-gray-500 text-sm mt-1">Out of stock</p>
+                  ) : (
+                    <div className="mt-1">
+                      <span className="font-semibold text-gray-900">
+                        {formattedPrice(size.price)}
+                      </span>
+                      <span className="line-through ml-2 text-gray-400 text-sm">
+                        {formattedPrice(size.originalPrice)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Color Options */}
@@ -301,6 +343,53 @@ const ProductDescription = () => {
             ))}
           </div>
         </div>
+
+        {/* Warranty */}
+        <div className="flex items-center space-x-12">
+          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
+            Warranty
+          </h2>
+          <span className="text-base text-gray-800">
+            {PRODUCT_DATA.warranty}
+          </span>
+        </div>
+
+        {/* Delivery Pincode Input */}
+        {/* <div className="flex items-start space-x-12">
+          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
+            Delivery
+          </h2>
+          <div className="flex flex-col flex-grow">
+            <div className="flex border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
+              <input
+                type="text"
+                placeholder="Enter Delivery Pincode"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+                className="flex-grow p-2 text-sm focus:outline-none"
+              />
+              <button className="bg-white text-blue-500 font-semibold text-sm px-4 hover:bg-gray-50 transition-colors">
+                Check
+              </button>
+            </div>
+            <div className="text-sm mt-2">
+              <p className="flex items-center text-gray-800">
+                <Truck className="w-4 h-4 text-gray-600 mr-2" />
+                Delivery by 13 Nov, Thursday
+                <Info className="w-3 h-3 text-gray-400 ml-2" />
+              </p>
+              <p className="text-xs text-gray-500 ml-6">
+                if ordered before 5:59 PM
+              </p>
+              <a
+                href="#"
+                className="text-blue-500 font-medium text-xs ml-6 hover:underline mt-1 inline-block"
+              >
+                View Details
+              </a>
+            </div>
+          </div>
+        </div> */}
       </section>
 
       {/* --- D. Highlights, Services, and Seller --- */}
@@ -308,34 +397,6 @@ const ProductDescription = () => {
         <div className="flex flex-wrap gap-y-6 md:gap-x-12">
           <SpecList title="Highlights" items={PRODUCT_DATA.highlights} />
           <SpecList title="Services" items={PRODUCT_DATA.services} />
-        </div>
-
-        {/* Seller Info */}
-        <div className="flex items-center space-x-12 mt-6">
-          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
-            Seller
-          </h2>
-          <div className="text-base text-gray-800">
-            <span className="font-semibold text-blue-500">
-              {PRODUCT_DATA.seller.name}
-            </span>
-            <div className="flex items-center space-x-2 mt-1 text-sm">
-              <span className="flex items-center px-1 py-0.5 text-xs font-bold text-white bg-green-600 rounded-md">
-                {PRODUCT_DATA.seller.rating}{" "}
-                <Star className="w-3 h-3 fill-white ml-0.5" />
-              </span>
-              <span className="text-gray-600">
-                • {PRODUCT_DATA.seller.returnPolicy}
-              </span>
-              <Info className="w-3 h-3 text-gray-400" />
-            </div>
-            <a
-              href="#"
-              className="text-blue-500 font-semibold text-sm mt-2 inline-block hover:underline"
-            >
-              See other sellers
-            </a>
-          </div>
         </div>
       </section>
 
@@ -348,6 +409,66 @@ const ProductDescription = () => {
           {PRODUCT_DATA.longDescription}
         </p>
       </section>
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold text-gray-900 mb-3">Sold By</h2>
+
+        {/* Seller Card */}
+        <div className="border rounded-xl p-5 flex items-center justify-between shadow-sm bg-white">
+          {/* Left: Icon + Seller Name */}
+          <div className="flex items-center space-x-4">
+            {/* Seller Icon */}
+            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 text-blue-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 9l1 11h16l1-11M3 9h18M5 9V4h3v5M9 9V4h6v5M15 9V4h3v5"
+                />
+              </svg>
+            </div>
+
+            {/* Seller Information */}
+            <div>
+              <p className="text-lg font-semibold text-gray-900">
+                {PRODUCT_DATA.seller.name}
+              </p>
+
+              <div className="flex items-center space-x-2 mt-1 text-sm">
+                {/* Rating Badge (Blue like Figma) */}
+                <span className="flex items-center bg-blue-100 text-blue-700 px-2 py-0.5 text-xs font-semibold rounded-md">
+                  {PRODUCT_DATA.seller.rating}
+                  <Star className="w-3 h-3 fill-blue-700 ml-1" />
+                </span>
+
+                <span className="text-gray-600">1256 Ratings</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side: Product count + Button */}
+          <div className="text-right">
+            <p className="text-xl font-semibold text-gray-900">
+              {/* {PRODUCT_DATA.seller.totalProducts} */}
+              23
+            </p>
+            <p className="text-gray-500 text-sm mb-3">Products</p>
+
+            <Link
+              href={"/shops/5"}
+              className="px-5 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition"
+            >
+              View Shop
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
