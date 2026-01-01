@@ -127,7 +127,7 @@ export default function Header() {
       </div>
 
       {/* MOBILE SEARCH (Visible only on mobile below header) */}
-      <div className="lg:hidden px-4 pb-3">
+      <div className="lg:hidden px-4 py-2">
         <SearchBar />
       </div>
 
