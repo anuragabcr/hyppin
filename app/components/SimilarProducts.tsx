@@ -147,10 +147,7 @@ export default function SimilarProducts({
       {/* Horizontal Scroll Area */}
       <div className="flex space-x-6 overflow-x-auto scrollbar-hide pb-2">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className="min-w-[240px] max-w-[240px] flex-shrink-0"
-          >
+          <div key={product.id} className="min-w-60 max-w-60 shrink-0">
             <ProductCard product={product} />
           </div>
         ))}

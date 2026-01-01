@@ -1,11 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  HiOutlineShoppingCart,
-  HiOutlineMagnifyingGlass,
-  HiOutlineUser,
-} from "react-icons/hi2";
+import { MapPin, UserRound, Heart, Menu, X } from "lucide-react";
 import { FaChevronDown } from "react-icons/fa";
 import { useCart } from "@/app/context/CartContext";
 import FilterTabs from "./FilterTabs";
@@ -15,6 +11,10 @@ import LocationSelectionModal from "./LocationSelectionModal";
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
 import { useUI } from "../context/UIContext";
+import SearchBar from "./SearchBar";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import Breadcrumbs from "./Breadcrumbs";
 
 export default function Header() {
   const { cart } = useCart();
@@ -24,7 +24,11 @@ export default function Header() {
     isProfileOpen,
     setIsProfileOpen,
   } = useUI();
+
+  const pathname = usePathname(); //
+  const isHomePage = pathname === "/";
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
@@ -36,91 +40,146 @@ export default function Header() {
   useEffect(() => {
     try {
       const location = localStorage.getItem("last_location");
-      if (location) {
-        setSelectedLocation(location);
-      }
+      if (location) setSelectedLocation(location);
     } catch (error) {
-      console.error("Failed to load location from local storage:", error);
-      setSelectedLocation("Select Location");
+      console.error("Failed to load location:", error);
     }
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div className="container mx-auto flex items-center h-20 px-4 sm:px-6 lg:px-8">
-        <div className="flex-shrink-0 mr-8">
-          <Link href="/" className="text-3xl font-bold text-indigo-600">
-            hyppin
+    <header className="sticky top-0 z-50 bg-white">
+      <div className="flex items-center justify-between h-20 px-4 sm:px-6 border-b border-gray-200">
+        <div className="flex items-center gap-4">
+          <button
+            className="sm:hidden p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+          <Link href="/" className="text-2xl sm:text-3xl font-bold text-black">
+            HYPPIN
           </Link>
         </div>
-
         <div
-          className="hidden lg:flex flex-col text-left mr-8 cursor-pointer hover:bg-gray-50 p-2 rounded transition"
+          className="hidden sm:flex flex-row items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 mx-1 sm:mx-2 md:mx-4 rounded transition"
           onClick={() => setIsLocationModalOpen(true)}
         >
-          <p className="text-base font-bold text-gray-900">
-            Delivery in 11 minutes
-          </p>
-          <div className="flex items-center text-sm text-gray-600">
-            <p>{selectedLocation}</p>
-            <FaChevronDown className="ml-1 h-4 w-4" />
+          <MapPin className="h-6 w-6 text-skybolt-blue" />
+          <div className="text-sm">
+            <p className="font-bold text-gray-900 leading-none">
+              Delivery in 11 mins
+            </p>
+            <p className="text-gray-600 truncate min-w-32 max-w-60">
+              {selectedLocation}
+            </p>
           </div>
+          <FaChevronDown className="h-3 w-3" />
         </div>
 
-        {/* --- Search Bar --- */}
-        <div className="flex-1 max-w-2xl mr-4">
-          <div className="relative flex items-center bg-gray-100 rounded-lg h-12">
-            <HiOutlineMagnifyingGlass className="h-5 w-5 text-gray-500 ml-4" />
-            <input
-              type="search"
-              placeholder='Search "Jacket" or "Dress"'
-              className="flex-1 bg-transparent h-full px-3 text-base text-gray-700 placeholder-gray-500 focus:outline-none"
-            />
-          </div>
+        <div className="hidden lg:block flex-1 mx-4">
+          <SearchBar />
         </div>
 
-        {/* --- Right Side --- */}
-        <div className="flex items-center space-x-6">
-          {/* Become a Seller */}
+        <div className="flex items-center space-x-3 sm:space-x-6">
           <Link
             href="/become-seller"
-            className="hidden sm:flex items-center space-x-2 text-base font-semibold text-gray-700 hover:text-indigo-600 transition"
+            className="hidden sm:flex bg-brand-gradient text-black 
+             px-[clamp(1rem,3vw,5rem)] 
+             py-2 rounded-xl font-semibold text-sm whitespace-nowrap"
           >
-            <span className="text-xl">🏬</span> {/* Replace with proper icon */}
-            <span>Become a Seller</span>
+            Become Seller
+          </Link>
+          <div className="relative">
+            <button
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
+              className="hidden sm:block items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer "
+            >
+              <UserRound className="h-6 w-6 text-skybolt-blue" />
+            </button>
+            <ProfileMenu />
+          </div>
+
+          <Link href="/wishlist" className="hidden sm:block">
+            <Heart className="h-6 w-6 text-skybolt-blue" />
           </Link>
 
-          {/* My Cart Button (Primary CTA) */}
           <button
             onClick={() => setIsCartModalOpen(true)}
-            className="relative flex items-center justify-center h-12 px-5 bg-gray-200 text-gray-900 rounded-xl hover:bg-gray-300 transition font-semibold shadow-sm cursor-pointer"
+            className="relative p-2"
           >
-            <HiOutlineShoppingCart className="h-5 w-5 mr-2" />
-            <span>My Cart</span>
-
-            {/* Badge */}
+            <Image
+              src="/images/shopping_cart.svg"
+              alt="cart"
+              height={24}
+              width={24}
+            />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5 shadow-md">
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                 {totalItems}
               </span>
             )}
           </button>
-
-          <div className="relative">
-            <button
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer"
-            >
-              <HiOutlineUser className="h-6 w-6" />
-              <span className="font-semibold">Profile</span>
-            </button>
-            <ProfileMenu />
-          </div>
         </div>
       </div>
 
-      {/* --- Tabs & Modal --- */}
-      <FilterTabs />
+      {/* MOBILE SEARCH (Visible only on mobile below header) */}
+      <div className="lg:hidden px-4 pb-3">
+        <SearchBar />
+      </div>
+
+      {/* MOBILE HAMBURGER MENU OVERLAY */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b shadow-xl animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col p-4 space-y-4 font-sans">
+            <div
+              className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+              onClick={() => {
+                setIsLocationModalOpen(true);
+                setIsMobileMenuOpen(false);
+              }}
+            >
+              <MapPin className="text-skybolt-blue" />
+              <div>
+                <p className="text-xs text-gray-500">Deliver to</p>
+                <p className="font-bold">{selectedLocation}</p>
+              </div>
+            </div>
+
+            <Link
+              href="/become-seller"
+              className="flex items-center gap-3 p-2 font-semibold"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <span className="w-8 h-8 flex items-center justify-center bg-brand-gradient rounded-full text-xs">
+                S
+              </span>
+              Become a Seller
+            </Link>
+
+            <Link
+              href="/profile"
+              className="flex items-center gap-3 p-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <UserRound className="h-5 w-5 text-gray-600" /> My Profile
+            </Link>
+
+            <Link
+              href="/wishlist"
+              className="flex items-center gap-3 p-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <Heart className="h-5 w-5 text-gray-600" /> Wishlist
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {isHomePage ? <FilterTabs /> : <Breadcrumbs />}
       <LocationSelectionModal onLocationSelect={handleLocationSelect} />
       <AuthModal />
       <CartDrawer />

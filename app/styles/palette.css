@@ -1,0 +1,28 @@
+:root {
+  --background: #fefefe;
+  --surface: #ebedf2;
+  --surface-muted: #d9dade;
+  --border: #bcbabb;
+  --primary: #1d1f30;
+  --secondary: #6f6f5f;
+  --muted: #9292a3;
+  --brand: #f0bd49;
+  --brand-hover: #e0ac3e;
+  --success: #55a639;
+  --SkyboltBlue: #3c63f9;
+  --color-yellow-start: #ffce1d;
+  --color-orange-end: #ffa500;
+  --gradient-primary: linear-gradient(
+    180deg,
+    var(--color-yellow-start) 0%,
+    var(--color-orange-end) 100%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --surface: #1a1a1a;
+    --text-primary: #ededed;
+  }
+}

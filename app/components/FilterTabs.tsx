@@ -9,7 +9,7 @@ const categories = [
   { label: "Women", icon: "👗" },
   { label: "Kid", icon: "🧒" },
   { label: "Footwear", icon: "👟" },
-  { label: "Accessories", icon: "🕶️" },
+  { label: "Stores", icon: "🕶️" },
 ];
 
 export default function FilterTabs() {
@@ -20,7 +20,7 @@ export default function FilterTabs() {
   }, [selectedTab]);
 
   return (
-    <div className="w-full bg-white border-b border-gray-200">
+    <div className="w-full bg-white">
       <div className="flex items-center gap-8 overflow-x-auto py-3 px-4 sm:px-6 md:px-8 flex-nowrap">
         {categories.map((cat) => (
           <button
@@ -31,15 +31,14 @@ export default function FilterTabs() {
               "whitespace-nowrap",
               selectedTab === cat.label
                 ? "text-purple-600 border-b-2 border-purple-600"
-                : "text-gray-600 hover:text-gray-800",
+                : "text-black hover:text-gray-800",
             )}
           >
-            <span>{cat.icon}</span>
-            <span className="text">{cat.label}</span>
+            {/* <span>{cat.icon}</span> */}
+            <span className="uppercase font-semibold">{cat.label}</span>
           </button>
         ))}
-        {/* 3. Optional: Add a simple spacer at the end for clean scrolling */}
-        <div className="flex-shrink-0 w-4 sm:w-6 md:w-8" aria-hidden="true" />
+        <div className="shrink-0 w-4 sm:w-6 md:w-8" aria-hidden="true" />
       </div>
     </div>
   );
