@@ -177,7 +177,7 @@ const OfferCarousel: React.FC = () => {
             {offers.map((offer, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 w-[260px] h-[420px] mx-2 rounded-2xl border-[3px] border-yellow-400 bg-white shadow-lg overflow-hidden hover:scale-[1.03] transition-transform duration-300 m-3"
+                className="shrink-0 w-[260px] h-[420px] mx-2 rounded-2xl border-[3px] border-yellow-400 bg-white shadow-lg overflow-hidden hover:scale-[1.03] transition-transform duration-300 m-3"
               >
                 <div
                   className={`${offer.bgColor} h-[75%] relative flex items-end justify-center`}

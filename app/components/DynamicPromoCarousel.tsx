@@ -82,30 +82,10 @@ const DynamicPromoCarousel: React.FC = () => {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {promoData.map((item) => (
-            <div key={item.id} className="flex-shrink-0 w-full">
+            <div key={item.id} className="shrink-0 w-full">
               <div className="relative">
-                {/* --- TOP BANNER --- */}
-                {/* <div className={`relative ${item.cardBg}`}>
-                  <div className="h-48 flex flex-col justify-between p-4 sm:p-6 md:p-8 text-black">
-                    <div className="flex justify-end items-center text-2xl sm:text-4xl font-extrabold text-gray-800 drop-shadow-lg">
-                      {item.cashbackText}
-                    </div>
-                    <div className="flex justify-around bg-white/70 backdrop-blur-sm rounded-lg p-2 mt-2">
-                      {item.subOffers.map((offer, i) => (
-                        <span
-                          key={i}
-                          className="text-xs sm:text-sm font-semibold text-gray-700"
-                        >
-                          {offer}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div> */}
-
-                {/* --- MAIN CONTENT --- */}
                 <div
-                  className={`flex flex-col md:flex-row h-[350px] sm:h-[450px] md:h-[500px] bg-gradient-to-r ${item.bgGradient}`}
+                  className={`flex flex-col md:flex-row h-[350px] sm:h-[450px] md:h-[500px] bg-linear-to-r ${item.bgGradient}`}
                 >
                   {/* LEFT: PRODUCT IMAGE PLACEHOLDER */}
                   <div className="relative flex-1 md:w-1/2 p-4 md:p-8 flex items-center justify-center">
