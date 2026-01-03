@@ -25,7 +25,7 @@ export default function Header() {
     setIsProfileOpen,
   } = useUI();
 
-  const pathname = usePathname(); //
+  const pathname = usePathname();
   const isHomePage = pathname === "/";
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
