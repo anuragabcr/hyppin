@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, ArrowUpDown } from "lucide-react";
+import { Search, ArrowUpDown, SlidersHorizontal } from "lucide-react";
 
 export const sortOptions = [
   { label: "Recent", value: "recent" },
@@ -15,6 +15,7 @@ interface SearchSortProps {
   sort: string;
   onSearchChange: (value: string) => void;
   onSortChange: (value: string) => void;
+  setIsMobileFilterOpen: () => void;
 }
 
 export default function SearchSort({
@@ -22,6 +23,7 @@ export default function SearchSort({
   sort,
   onSearchChange,
   onSortChange,
+  setIsMobileFilterOpen,
 }: SearchSortProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -45,11 +47,13 @@ export default function SearchSort({
         />
       </div>
 
-      <div className="relative">
-        <select
-          value={sort}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="
+      <div className="flex gap-2 justify-between">
+        <div className="relative">
+          <select
+            value={sort}
+            onChange={(e) => onSortChange(e.target.value)}
+            className="
+            w-full
             appearance-none
             pl-10 pr-10 py-2.5
             rounded-lg
@@ -59,15 +63,23 @@ export default function SearchSort({
             font-medium
             focus:outline-none focus:ring-2 focus:ring-brand/40
           "
-        >
-          {sortOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              Sort by: {option.label}
-            </option>
-          ))}
-        </select>
+          >
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                Sort by: {option.label}
+              </option>
+            ))}
+          </select>
 
-        <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
+          <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
+        </div>
+        <button
+          onClick={setIsMobileFilterOpen}
+          className="flex md:hidden lg:hidden p-2 border rounded-lg"
+        >
+          <SlidersHorizontal className="h-5 w-5" />
+          Filters
+        </button>
       </div>
     </div>
   );

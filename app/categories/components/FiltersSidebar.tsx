@@ -107,7 +107,7 @@ export default function FiltersSidebar({ onChange }: FiltersSidebarProps) {
   };
 
   return (
-    <aside className="w-full p-4">
+    <aside className="w-full min-w-[200px] p-4">
       {/* Header */}
       <div className="flex items-center gap-2 pb-4 border-b border-border">
         <SlidersHorizontal className="h-5 w-5 text-muted" />

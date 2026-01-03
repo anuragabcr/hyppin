@@ -10,7 +10,7 @@ export default function Breadcrumbs() {
 
   return (
     <nav
-      className="flex py-3 text-gray-500 text-sm font-sans"
+      className="flex px-8 py-3 text-gray-500 text-sm font-sans"
       aria-label="Breadcrumb"
     >
       <ol className="flex items-center space-x-2">

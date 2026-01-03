@@ -6,6 +6,7 @@ import SearchSort from "./components/SearchSort";
 import ProductGrid from "../components/ProductGrid";
 import { Product } from "../components/ProductCarousel";
 import { Filter, X } from "lucide-react";
+import MobileDrawer from "../components/MobileDrawer";
 
 export default function ProductListingPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -120,12 +121,13 @@ export default function ProductListingPage() {
       </aside>
 
       <main className="flex-1 space-y-8 overflow-y-auto max-h-[calc(100vh-6rem)] pr-2 relative">
-        <div className="sticky top-0 z-10 bg-white px-8 pb-2">
+        <div className="sticky top-0 z-10 bg-white px-1 sm:px-2 md:px-4 lg:px-8 pb-2">
           <SearchSort
             search={searchQuery}
             sort={sortOrder}
             onSearchChange={setSearchQuery}
             onSortChange={setSortOrder}
+            setIsMobileFilterOpen={() => setIsMobileFilterOpen(true)}
           />
         </div>
 
@@ -141,6 +143,13 @@ export default function ProductListingPage() {
           actionPath=""
         />
       </main>
+      <MobileDrawer
+        open={isMobileFilterOpen}
+        onClose={() => setIsMobileFilterOpen(false)}
+        title=""
+      >
+        <FiltersSidebar onChange={setFilters} />
+      </MobileDrawer>
     </div>
   );
 }
