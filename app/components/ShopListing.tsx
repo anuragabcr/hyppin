@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import ShopCard from "../shops/components/ShopCard";
+import ShopCard from "../stores/components/ShopCard";
 
 interface Brand {
   id: number;

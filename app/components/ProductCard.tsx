@@ -17,6 +17,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+  id,
   brand,
   name,
   image,
@@ -24,11 +25,10 @@ export default function ProductCard({
   originalPrice,
   discount,
   rating,
-  href,
 }: ProductCardProps) {
   return (
     <Link
-      href={href}
+      href={`/products/${id}`}
       className="group relative flex flex-col w-full max-w-[300px] overflow-hidden rounded-xl bg-white transition-all duration-300"
     >
       <div className="relative w-full aspect-3/4 bg-gray-100 rounded-xl overflow-hidden">

@@ -26,7 +26,7 @@ export default function Header() {
   } = useUI();
 
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const showBreadcrumbs = pathname === "/" || pathname.includes("categories");
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -179,7 +179,7 @@ export default function Header() {
         </div>
       )}
 
-      {isHomePage ? <FilterTabs /> : <Breadcrumbs />}
+      {!showBreadcrumbs ? <Breadcrumbs /> : <FilterTabs />}
       <LocationSelectionModal onLocationSelect={handleLocationSelect} />
       <AuthModal />
       <CartDrawer />

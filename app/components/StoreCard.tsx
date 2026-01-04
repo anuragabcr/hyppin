@@ -17,16 +17,16 @@ interface StoreCardProps {
 }
 
 export default function StoreCard({
+  id,
   brand,
   name,
   image,
   discount,
   rating,
-  href,
 }: StoreCardProps) {
   return (
     <Link
-      href={href}
+      href={`/stores/${id}`}
       className="group relative flex flex-col w-full max-w-sm overflow-hidden rounded-xl bg-white transition-all duration-300"
     >
       <div className="relative w-full aspect-3/4 bg-gray-100 rounded-xl overflow-hidden">

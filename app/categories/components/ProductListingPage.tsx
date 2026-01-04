@@ -1,24 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import FiltersSidebar, { ProductFilters } from "./components/FiltersSidebar";
-import SearchSort from "./components/SearchSort";
-import ProductGrid from "../components/ProductGrid";
-import { Product } from "../components/ProductCarousel";
-import MobileDrawer from "../components/MobileDrawer";
+import FiltersSidebar from "../components/FiltersSidebar";
+import SearchSort from "../components/SearchSort";
+import ProductGrid from "../../components/ProductGrid";
+import { Product } from "../../components/ProductCarousel";
+import MobileDrawer from "../../components/MobileDrawer";
+import { CategoryId, FILTERS_BY_CATEGORY } from "@/app/constants";
 
-export default function ProductListingPage() {
+interface ProductListingPageProps {
+  categoryId: CategoryId;
+}
+
+export default function ProductListingPage({
+  categoryId,
+}: ProductListingPageProps) {
+  const filtersConfig = FILTERS_BY_CATEGORY[categoryId];
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("popular");
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState<ProductFilters>({
-    sizes: [],
-    discounts: [],
-    colors: [],
-    prices: [],
-  });
+  const [filters, setFilters] = useState<any>({});
 
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +31,6 @@ export default function ProductListingPage() {
         const data = await res.json();
 
         const mappedData = data.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (item: any): Product => ({
             id: item.id.toString(),
             brand: "Highlander",
@@ -54,6 +57,7 @@ export default function ProductListingPage() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
+    // 1. Search Filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -63,32 +67,43 @@ export default function ProductListingPage() {
       );
     }
 
-    if (filters.discounts.length) {
-      result = result.filter((p) =>
-        filters.discounts.some((range) => {
-          if (range === "5-10%") return p.discount >= 5 && p.discount <= 10;
-          if (range === "10-20%") return p.discount > 10 && p.discount <= 20;
-          if (range === "20-30%") return p.discount > 20 && p.discount <= 30;
-          if (range === "30%+") return p.discount > 30;
-          return false;
-        }),
-      );
-    }
+    // 2. Dynamic Filters Logic
+    Object.keys(filters).forEach((key) => {
+      const selectedValues = filters[key];
 
-    if (filters.prices.length) {
-      result = result.filter((p) =>
-        filters.prices.some((range) => {
-          if (range === "Below ₹500") return p.price < 500;
-          if (range === "₹500 - ₹1000")
-            return p.price >= 500 && p.price <= 1000;
-          if (range === "₹1000 - ₹2000")
-            return p.price > 1000 && p.price <= 2000;
-          if (range === "Above ₹2000") return p.price > 2000;
-          return false;
-        }),
-      );
-    }
+      // Skip if no values are selected for this filter key
+      if (
+        !selectedValues ||
+        (Array.isArray(selectedValues) && selectedValues.length === 0)
+      ) {
+        return;
+      }
 
+      if (key === "price") {
+        // Handle the Range type (assuming { min: number, max: number })
+        result = result.filter(
+          (p) => p.price >= selectedValues.min && p.price <= selectedValues.max,
+        );
+      } else if (key === "discount") {
+        // Handle Discount ranges (e.g., "10% & Above")
+        result = result.filter((p) =>
+          selectedValues.some((val: string) => {
+            const threshold = parseInt(val);
+            return p.discount >= threshold;
+          }),
+        );
+      } else {
+        // Generic match for Category, Size, Brand, Fabric, etc.
+        // We assume the product property name matches the filter key
+        result = result.filter((p: any) => {
+          const productValue = p[key];
+          // Support both single values and arrays in product data
+          return selectedValues.includes(productValue);
+        });
+      }
+    });
+
+    // 3. Sorting
     switch (sortOrder) {
       case "price_asc":
         result.sort((a, b) => a.price - b.price);
@@ -99,8 +114,6 @@ export default function ProductListingPage() {
       case "discount":
         result.sort((a, b) => b.discount - a.discount);
         break;
-      default:
-        break;
     }
 
     return result;
@@ -110,7 +123,11 @@ export default function ProductListingPage() {
     <div className="flex w-full mx-auto p-4 bg-white">
       <aside className="hidden md:block lg:block w-48 relative">
         <div className="md:sticky md:top-24">
-          <FiltersSidebar onChange={setFilters} />
+          <FiltersSidebar
+            filters={filters}
+            setFilters={setFilters}
+            filtersConfig={filtersConfig}
+          />
         </div>
       </aside>
 
@@ -129,11 +146,13 @@ export default function ProductListingPage() {
           products={filteredProducts}
           title="Westside"
           actionPath=""
+          cardType={categoryId === "stores" ? "store" : "product"}
         />
         <ProductGrid
           products={filteredProducts}
           title="Pantaloons"
           actionPath=""
+          cardType={categoryId === "stores" ? "store" : "product"}
         />
       </main>
       <MobileDrawer
@@ -141,7 +160,11 @@ export default function ProductListingPage() {
         onClose={() => setIsMobileFilterOpen(false)}
         title=""
       >
-        <FiltersSidebar onChange={setFilters} />
+        <FiltersSidebar
+          filters={filters}
+          setFilters={setFilters}
+          filtersConfig={filtersConfig}
+        />
       </MobileDrawer>
     </div>
   );

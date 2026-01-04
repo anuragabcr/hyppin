@@ -1,5 +1,6 @@
 import CategoryCarousel from "./components/CategoryCarousel";
 import HeroSlider from "./components/HeroSlider";
+import OfferBanners from "./components/OfferBanners";
 import ProductsCarousel, { Product } from "./components/ProductCarousel";
 import ProductGrid from "./components/ProductGrid";
 import StoreSpotlight from "./components/StoreSpotlight";
@@ -60,14 +61,20 @@ async function getCategoryProducts(catid: number = 39) {
 }
 
 export default async function Home() {
-  const deals = await getCategoryProducts(39);
-  const essentials = await getCategoryProducts(42);
-  const stores = await getCategoryProducts(41);
-  const categories = await getCategoryProducts(40);
+  const deals = await getCategoryProducts(1);
+  const essentials = await getCategoryProducts(2);
+  const stores = await getCategoryProducts(3);
+  const categories = await getCategoryProducts(4);
 
   return (
     <>
       <HeroSlider />
+      {/* <OfferBanners
+        leftImage="/images/offer_banner1.svg"
+        rightImage="/images/offer_banner2.svg"
+        leftHref="/categories/men"
+        rightHref="/categories/women"
+      /> */}
       <ProductsCarousel
         title="Deals of the day"
         products={deals}
@@ -82,13 +89,14 @@ export default async function Home() {
         title="Shop by Category"
         products={categories}
         actionPath="/categories/39"
+        cardType="category"
       />
       <StoreSpotlight {...veyraStoreData} />
       <ProductGrid
         title="Shop by Stores"
         products={stores}
-        actionPath="/categories/39"
-        showStoreCard={true}
+        actionPath="/stores"
+        cardType="store"
         showLoadMore={true}
       />
     </>

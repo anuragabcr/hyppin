@@ -1,35 +1,47 @@
 "use client";
-import { useFilter } from "../context/FilterContext";
-import { useEffect } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "../lib/utils";
 
 const categories = [
-  { label: "All", icon: "🛍️" },
-  { label: "Men", icon: "👔" },
-  { label: "Women", icon: "👗" },
-  { label: "Kid", icon: "🧒" },
-  { label: "Footwear", icon: "👟" },
-  { label: "Stores", icon: "🕶️" },
+  { label: "All", icon: "🛍️", id: "all" },
+  { label: "Men", icon: "👔", id: "men" },
+  { label: "Women", icon: "👗", id: "women" },
+  { label: "Kids", icon: "🧒", id: "kids" },
+  { label: "Footwear", icon: "👟", id: "footwear" },
+  { label: "Stores", icon: "🕶️", id: "stores" },
 ];
 
 export default function FilterTabs() {
-  const { selectedTab, setSelectedTab } = useFilter();
+  const pathname = usePathname();
+  const router = useRouter();
 
-  useEffect(() => {
-    console.log("Filter changed:", selectedTab);
-  }, [selectedTab]);
+  const getActiveTab = () => {
+    const segments = pathname.split("/");
+    return segments[segments.length - 1] || "all";
+  };
+
+  const activeTab = getActiveTab();
+
+  const handleNavigation = (id: string) => {
+    if (id === "all") {
+      router.push(`/`);
+      return;
+    }
+    router.push(`/categories/${id}`);
+  };
 
   return (
     <div className="w-full bg-white">
       <div className="flex items-center gap-8 overflow-x-auto py-3 px-4 sm:px-6 md:px-8 flex-nowrap">
         {categories.map((cat) => (
           <button
-            key={cat.label}
-            onClick={() => setSelectedTab(cat.label)}
+            key={cat.id}
+            onClick={() => handleNavigation(cat.id)}
             className={cn(
               "flex items-center gap-2 pb-2 text-sm font-medium transition-colors duration-200 cursor-pointer",
               "whitespace-nowrap",
-              selectedTab === cat.label
+              activeTab === cat.id
                 ? "text-purple-600 border-b-2 border-purple-600"
                 : "text-black hover:text-gray-800",
             )}

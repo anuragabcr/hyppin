@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import ProductImageViewer from "./components/ProductImageViewer";
 import ProductDescription from "./components/ProductDescription";
 import ProductSpecifications from "./components/ProductSpecifications";
-import Reviews from "@/app/shops/[shopId]/components/Reviews";
+import Reviews from "@/app/stores/[shopId]/components/Reviews";
 import ProductRatingSummary from "./components/ProductRatingSummary";
 import SimilarProducts from "@/app/components/SimilarProducts";
 

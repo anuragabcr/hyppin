@@ -1,6 +1,6 @@
 "use client";
 
-import ProductCard from "../shops/[shopId]/components/ProductCard";
+import ProductCard from "../stores/[shopId]/components/ProductCard";
 
 interface MenuItem {
   id: string;

@@ -5,13 +5,14 @@ import CategoryCard from "./CategoryCard";
 import StoreCard from "./StoreCard";
 import { Product } from "./ProductCarousel";
 import Link from "next/link";
+import ProductCard from "./ProductCard";
 
 interface ProductGridProps {
   title: string;
   products: Product[];
   actionPath: string;
   showLoadMore?: boolean;
-  showStoreCard?: boolean;
+  cardType?: "product" | "store" | "category";
 }
 
 export default function ProductGrid({
@@ -19,7 +20,7 @@ export default function ProductGrid({
   products,
   actionPath,
   showLoadMore = false,
-  showStoreCard = false,
+  cardType = "category",
 }: ProductGridProps) {
   const [visibleCount, setVisibleCount] = useState(8);
   const [columns, setColumns] = useState(4);
@@ -53,6 +54,20 @@ export default function ProductGrid({
 
   const hasMore = visibleCount < products.length;
 
+  const renderCard = (product: Product) => {
+    switch (cardType) {
+      case "store":
+        return <StoreCard key={product.id} {...product} />;
+      case "category":
+        return (
+          <CategoryCard key={product.id} {...product} isBrandCentered={true} />
+        );
+      case "product":
+      default:
+        return <ProductCard key={product.id} {...product} />;
+    }
+  };
+
   return (
     <section className="py-2 bg-white">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,17 +86,7 @@ export default function ProductGrid({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
           {products
             .slice(0, visibleCount)
-            .map((product) =>
-              showStoreCard ? (
-                <StoreCard key={product.id} {...product} />
-              ) : (
-                <CategoryCard
-                  key={product.id}
-                  {...product}
-                  isBrandCentered={true}
-                />
-              ),
-            )}
+            .map((product) => renderCard(product))}
         </div>
 
         {showLoadMore && hasMore && (
