@@ -46,7 +46,7 @@ export default function FilterTabs() {
                 : "text-black hover:text-gray-800",
             )}
           >
-            {/* <span>{cat.icon}</span> */}
+            <span>{cat.icon}</span>
             <span className="uppercase font-semibold">{cat.label}</span>
           </button>
         ))}
