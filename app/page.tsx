@@ -1,6 +1,6 @@
 import CategoryCarousel from "./components/CategoryCarousel";
 import HeroSlider from "./components/HeroSlider";
-// import OfferBanners from "./components/OfferBanners";
+import OfferBanners from "./components/OfferBanners";
 import ProductsCarousel, { Product } from "./components/ProductCarousel";
 import ProductGrid from "./components/ProductGrid";
 import StoreSpotlight from "./components/StoreSpotlight";
