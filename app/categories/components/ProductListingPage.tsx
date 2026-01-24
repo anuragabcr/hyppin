@@ -57,7 +57,6 @@ export default function ProductListingPage({
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // 1. Search Filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -67,11 +66,9 @@ export default function ProductListingPage({
       );
     }
 
-    // 2. Dynamic Filters Logic
     Object.keys(filters).forEach((key) => {
       const selectedValues = filters[key];
 
-      // Skip if no values are selected for this filter key
       if (
         !selectedValues ||
         (Array.isArray(selectedValues) && selectedValues.length === 0)
@@ -80,12 +77,10 @@ export default function ProductListingPage({
       }
 
       if (key === "price") {
-        // Handle the Range type (assuming { min: number, max: number })
         result = result.filter(
           (p) => p.price >= selectedValues.min && p.price <= selectedValues.max,
         );
       } else if (key === "discount") {
-        // Handle Discount ranges (e.g., "10% & Above")
         result = result.filter((p) =>
           selectedValues.some((val: string) => {
             const threshold = parseInt(val);
@@ -93,17 +88,13 @@ export default function ProductListingPage({
           }),
         );
       } else {
-        // Generic match for Category, Size, Brand, Fabric, etc.
-        // We assume the product property name matches the filter key
         result = result.filter((p: any) => {
           const productValue = p[key];
-          // Support both single values and arrays in product data
           return selectedValues.includes(productValue);
         });
       }
     });
 
-    // 3. Sorting
     switch (sortOrder) {
       case "price_asc":
         result.sort((a, b) => a.price - b.price);

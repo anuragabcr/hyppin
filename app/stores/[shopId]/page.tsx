@@ -12,7 +12,7 @@ export default async function ShopPage({ params }: ShopPageProps) {
   if (!shopId) return notFound();
 
   return (
-    <div className="max-w-7xl mx-auto py-10">
+    <div className="max-w-7xl mx-auto pb-10">
       <ShopHeader />
       <ShopTabs />
     </div>

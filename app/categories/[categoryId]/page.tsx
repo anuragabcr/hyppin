@@ -10,6 +10,7 @@ export default async function Page({ params }: ProductPageProps) {
   const { categoryId } = (await params) as { categoryId: CategoryId };
 
   if (!categoryId) return notFound();
+  console.log(categoryId);
 
   return (
     <>
