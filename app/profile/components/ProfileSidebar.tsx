@@ -43,7 +43,7 @@ export const ProfileSidebar = ({
         <button
           key={item.id}
           onClick={() => setActiveTab(item.id)}
-          className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
+          className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
             isActive
               ? "text-blue-600 bg-blue-50/50"
               : isDanger

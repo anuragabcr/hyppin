@@ -8,7 +8,7 @@ const DUMMY_ORDERS = [
     brand: "MANIAC",
     name: "Men Round Neck",
     size: "XS",
-    image: "/p1.jpg",
+    image: "/images/cart2.svg",
     returnWindowDate: "12th December",
   },
   {
@@ -17,7 +17,7 @@ const DUMMY_ORDERS = [
     brand: "MANIAC",
     name: "Men Round Neck",
     size: "XS",
-    image: "/p2.jpg",
+    image: "/images/cart1.svg",
     returnWindowDate: "12th December",
   },
 ];
