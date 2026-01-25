@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ChevronDown,
   ChevronUp,
@@ -11,7 +11,13 @@ import {
 import { cn } from "@/app/lib/utils";
 import { FilterConfig, FilterOption } from "@/app/constants/filters";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ProductFilters {
+  sizes: string[];
+  discounts: string[];
+  colors: string[];
+  prices: string[];
+}
+
 export type ActiveFilters = Record<string, any>;
 
 interface FiltersSidebarProps {

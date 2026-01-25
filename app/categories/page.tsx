@@ -1,19 +1,21 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import FiltersSidebar, { ProductFilters } from "./components/FiltersSidebar";
+import FiltersSidebar, { ActiveFilters } from "./components/FiltersSidebar";
 import SearchSort from "./components/SearchSort";
 import ProductGrid from "../components/ProductGrid";
 import { Product } from "../components/ProductCarousel";
 import MobileDrawer from "../components/MobileDrawer";
+import { FILTERS_BY_CATEGORY } from "../constants";
 
 export default function ProductListingPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const filtersConfig = FILTERS_BY_CATEGORY["men"];
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("popular");
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState<ProductFilters>({
+  const [filters, setFilters] = useState<ActiveFilters>({
     sizes: [],
     discounts: [],
     colors: [],
@@ -65,7 +67,7 @@ export default function ProductListingPage() {
 
     if (filters.discounts.length) {
       result = result.filter((p) =>
-        filters.discounts.some((range) => {
+        filters.discounts.some((range: unknown) => {
           if (range === "5-10%") return p.discount >= 5 && p.discount <= 10;
           if (range === "10-20%") return p.discount > 10 && p.discount <= 20;
           if (range === "20-30%") return p.discount > 20 && p.discount <= 30;
@@ -77,7 +79,7 @@ export default function ProductListingPage() {
 
     if (filters.prices.length) {
       result = result.filter((p) =>
-        filters.prices.some((range) => {
+        filters.prices.some((range: unknown) => {
           if (range === "Below ₹500") return p.price < 500;
           if (range === "₹500 - ₹1000")
             return p.price >= 500 && p.price <= 1000;
@@ -110,7 +112,11 @@ export default function ProductListingPage() {
     <div className="flex w-full mx-auto p-4 bg-white">
       <aside className="hidden md:block lg:block w-48 relative">
         <div className="md:sticky md:top-24">
-          <FiltersSidebar onChange={setFilters} />
+          <FiltersSidebar
+            filters={filters}
+            setFilters={setFilters}
+            filtersConfig={filtersConfig}
+          />
         </div>
       </aside>
 
@@ -141,7 +147,11 @@ export default function ProductListingPage() {
         onClose={() => setIsMobileFilterOpen(false)}
         title=""
       >
-        <FiltersSidebar onChange={setFilters} />
+        <FiltersSidebar
+          filters={filters}
+          setFilters={setFilters}
+          filtersConfig={filtersConfig}
+        />
       </MobileDrawer>
     </div>
   );
