@@ -11,7 +11,7 @@ interface User {
 }
 
 export default function ProfileMenu() {
-  const { setIsAuthModalOpen, isProfileOpen, setIsProfileOpen } = useUI();
+  const { isProfileOpen, setIsProfileOpen } = useUI();
   const menuRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -52,15 +52,16 @@ export default function ProfileMenu() {
     >
       {!user ? (
         <>
-          <div
+          <Link
+            href={"/login"}
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
-            onClick={() => {
-              setIsAuthModalOpen(true);
-              setIsProfileOpen(false);
-            }}
+            // onClick={() => {
+            //   setIsAuthModalOpen(true);
+            //   setIsProfileOpen(false);
+            // }}
           >
             Login
-          </div>
+          </Link>
         </>
       ) : (
         <>
