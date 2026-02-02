@@ -40,9 +40,7 @@ export default function SearchSort({
             rounded-lg
             border border-border
             bg-background
-            text-primary
             placeholder:text-muted
-            focus:outline-none focus:ring-2 focus:ring-brand/40
           "
         />
       </div>
@@ -59,9 +57,7 @@ export default function SearchSort({
             rounded-lg
             border border-border
             bg-background
-            text-primary
             font-medium
-            focus:outline-none focus:ring-2 focus:ring-brand/40
           "
           >
             {sortOptions.map((option) => (

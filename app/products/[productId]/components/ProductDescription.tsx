@@ -1,11 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Star, CheckCircle, Info, Truck } from "lucide-react";
+import { Star, CheckCircle, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-// --- 1. Define Types ---
 
 interface OfferLineProps {
   text: string;
@@ -203,7 +201,7 @@ const ProductDescription = () => {
     }).format(price);
 
   return (
-    <div className="p-4 w-full bg-white space-y-8 max-w-xl mx-auto md:mx-0">
+    <div className="w-full bg-white space-y-8 max-w-xl mx-auto md:mx-0">
       {/* --- A. Title, Ratings & Price --- */}
       <section className="pb-4 border-b border-gray-100">
         <h1 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
@@ -271,7 +269,7 @@ const ProductDescription = () => {
                 
                   ${
                     selectedSize === size.label
-                      ? "!border-blue-500 !bg-green-100 shadow-md"
+                      ? "border-blue-500! bg-green-100! shadow-md"
                       : ""
                   }
                 
@@ -316,7 +314,7 @@ const ProductDescription = () => {
 
         {/* Color Options */}
         <div className="flex items-start space-x-12">
-          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
+          <h2 className="text-base font-medium text-gray-500 w-24 shrink-0">
             Color
           </h2>
           <div className="flex space-x-3">
@@ -346,7 +344,7 @@ const ProductDescription = () => {
 
         {/* Warranty */}
         <div className="flex items-center space-x-12">
-          <h2 className="text-base font-medium text-gray-500 w-24 flex-shrink-0">
+          <h2 className="text-base font-medium text-gray-500 w-24 shrink-0">
             Warranty
           </h2>
           <span className="text-base text-gray-800">
@@ -412,11 +410,8 @@ const ProductDescription = () => {
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-3">Sold By</h2>
 
-        {/* Seller Card */}
         <div className="border rounded-xl p-5 flex items-center justify-between shadow-sm bg-white">
-          {/* Left: Icon + Seller Name */}
           <div className="flex items-center space-x-4">
-            {/* Seller Icon */}
             <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

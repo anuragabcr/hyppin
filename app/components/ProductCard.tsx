@@ -39,7 +39,7 @@ export default function ProductCard({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        <button className="group/wishlist absolute top-4 left-4 z-10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
+        <button className="group/wishlist absolute top-4 left-4 z-5 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
           <Heart
             className="h-6 w-6 transition-colors duration-300 group-hover/wishlist:fill-red-500 group-hover/wishlist:text-red-500"
             strokeWidth={2}
@@ -47,7 +47,7 @@ export default function ProductCard({
           />
         </button>
 
-        <div className="absolute top-4 right-4 z-10 bg-[#4F7CF2] text-white text-sm font-semibold px-3 py-1 rounded-full shadow-sm">
+        <div className="absolute top-4 right-4 z-5 bg-[#4F7CF2] text-white text-sm font-semibold px-3 py-1 rounded-full shadow-sm">
           {discount}% off
         </div>
 

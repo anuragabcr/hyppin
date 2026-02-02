@@ -137,7 +137,7 @@ export default function SimilarProducts({
   products = mockProducts,
 }: SimilarProductsProps) {
   return (
-    <section className="max-w-7xl mx-auto mt-10">
+    <section className=" mx-auto mt-10 p-2 md:p-4">
       {/* Title */}
       <h2 className="text-3xl font-bold text-gray-900 mb-6 tracking-wide">
         {title}:

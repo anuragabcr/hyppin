@@ -72,9 +72,7 @@ export default function ProductGrid({
     <section className="py-2 bg-white">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
-            {title}
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black">{title}</h2>
           <Link
             href={actionPath}
             className="text-sm font-bold text-[#4F7CF2] hover:underline transition"
@@ -83,7 +81,7 @@ export default function ProductGrid({
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
           {products
             .slice(0, visibleCount)
             .map((product) => renderCard(product))}
