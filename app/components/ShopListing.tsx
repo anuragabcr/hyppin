@@ -95,7 +95,7 @@ const fashionBrands: Brand[] = [
 const ShopListing: React.FC = () => {
   return (
     <div className="bg-gray-100 w-full py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
@@ -110,7 +110,7 @@ const ShopListing: React.FC = () => {
         </div>
 
         {/* Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
           {fashionBrands.map((brand) => (
             <Link
               key={brand.id}

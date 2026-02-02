@@ -74,7 +74,7 @@ export default function ProductCarousel({
   };
 
   return (
-    <section className="py-12">
+    <section className="py-2 md:py-4">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-black tracking-tight">

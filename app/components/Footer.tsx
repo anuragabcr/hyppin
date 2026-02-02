@@ -1,122 +1,88 @@
-import Link from "next/link";
-import { FaInstagram, FaFacebookF } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import PromoFooter from "./PromoFooter";
+
+const footerLinks = [
+  {
+    title: "Company info",
+    links: [
+      "About Hyppin",
+      "Affiliate Program",
+      "Contact us",
+      "Careers",
+      "Press",
+    ],
+  },
+  {
+    title: "Customer service",
+    links: [
+      "Return and refund policy",
+      "Intellectual property policy",
+      "Shipping info",
+      "Report suspicious activity",
+    ],
+  },
+  {
+    title: "Help",
+    links: [
+      "Support center & FAQ",
+      "Safety center",
+      "Hyppin purchase protection",
+      "Sitemap",
+      "How to order",
+      "How to track",
+    ],
+  },
+];
 
 export default function Footer() {
-  const footerSections = [
-    {
-      title: "SHOP BY CATEGORY",
-      links: ["WOMAN", "MAN", "KIDS", "HOME"],
-    },
-    {
-      title: "SHOP BY USE",
-      links: ["Holidays", "Beach"],
-    },
-    {
-      title: "OFFERS",
-      links: ["Anniversary Sale", "Student Discount", "Limited Stock"],
-    },
-    {
-      title: "HELP & SUPPORT",
-      links: [
-        "Contact Us",
-        "Track Order",
-        "Return & Exchange",
-        "FAQ",
-        "Care Guide",
-      ],
-    },
-    {
-      title: "POLICY",
-      links: [
-        "Return & Exchange",
-        "Privacy Policy",
-        "Cookie Policy",
-        "Terms And Conditions",
-      ],
-    },
-    {
-      title: "ABOUT US",
-      links: ["Store Reviews", "Blogs"],
-    },
-    {
-      title: "CONTACT US",
-      links: ["+91 9876543210", "info@hyppin.com"],
-    },
-  ];
-
   return (
-    <footer className="bg-[#ECEEF2] py-6 px-4 sm:px-8 lg:px-12 font-sans text-black">
-      <div className="mb-4">
-        <h2 className="text-5xl font-black tracking-tighter">HYPPIN</h2>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-6">
-        {footerSections.map((section) => (
-          <div key={section.title} className="pr-4">
-            <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
-              <span className="whitespace-nowrap">{section.title}</span>
-              <div className="h-px w-full bg-gray-300"></div>
-            </h3>
-            <ul className="space-y-2">
-              {section.links.map((link) => (
-                <li key={link}>
-                  <Link
-                    href="#"
-                    className="text-sm text-gray-700 hover:text-black transition"
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex flex-col gap-8 mb-6">
-        <div>
-          <h3 className="text-lg font-bold mb-4">Social</h3>
-          <div className="flex gap-4">
-            {[FaXTwitter, FaFacebookF, FaInstagram].map((Icon, i) => (
-              <div
-                key={i}
-                className="w-10 h-10 border border-gray-300 flex items-center justify-center rounded-sm hover:bg-white cursor-pointer transition"
-              >
-                <Icon className="text-lg" />
+    <footer className="bg-[#111111] text-white pt-16 pb-8 px-6 md:px-12">
+      <div className="mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-8">
+          {/* Section 1-3: Navigation Links (2/3 width) */}
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {footerLinks.map((group) => (
+              <div key={group.title}>
+                <h4 className="font-bold text-sm mb-6 uppercase tracking-wider text-gray-200">
+                  {group.title}
+                </h4>
+                <ul className="space-y-4">
+                  {group.links.map((link) => (
+                    <li key={link}>
+                      <a
+                        href="#"
+                        className="text-gray-400 hover:text-[#f0bd49] text-xs transition-colors"
+                      >
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
-        </div>
 
-        <div className="max-w-4xl">
-          <h3 className="text-lg font-bold mb-2">About Us</h3>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris.
-          </p>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-bold mb-2">Recent Searches</h3>
-          <div className="flex flex-wrap gap-4 text-xs font-bold underline decoration-gray-400">
-            {["WOMAN", "MAN", "KIDS", "HOME"].map((tag) => (
-              <Link
-                key={tag}
-                href="#"
-                className="hover:text-primary transition"
-              >
-                {tag}
-              </Link>
-            ))}
+          {/* Section 4: PromoFooter (1/3 width) */}
+          <div className="lg:col-span-4">
+            <PromoFooter />
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="pt-2 text-center text-xs text-gray-500">
-        © 2025 HYPPIN - All rights Reserved
+        <div className="pt-8 border-t border-white/5 text-center">
+          <p className="text-[10px] text-gray-500 mb-4">
+            © 2022 - 2026 Hyppin Inc.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6 text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+            <a href="#" className="hover:underline">
+              Terms of use
+            </a>
+            <a href="#" className="hover:underline">
+              Privacy policy
+            </a>
+            <a href="#" className="hover:underline">
+              Ad Choices
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );

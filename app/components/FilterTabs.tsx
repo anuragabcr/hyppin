@@ -16,41 +16,47 @@ export default function FilterTabs() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const getActiveTab = () => {
-    const segments = pathname.split("/");
-    return segments[segments.length - 1] || "all";
-  };
-
-  const activeTab = getActiveTab();
+  const activeTab = pathname.split("/").pop() || "all";
 
   const handleNavigation = (id: string) => {
-    if (id === "all") {
-      router.push(`/`);
-      return;
-    }
-    router.push(`/categories/${id}`);
+    router.push(id === "all" ? "/" : `/categories/${id}`);
   };
 
   return (
     <div className="w-full bg-white">
-      <div className="flex items-center gap-8 overflow-x-auto py-3 px-4 sm:px-6 md:px-8 flex-nowrap">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => handleNavigation(cat.id)}
-            className={cn(
-              "flex items-center gap-2 pb-2 text-sm font-medium transition-colors duration-200 cursor-pointer",
-              "whitespace-nowrap",
-              activeTab === cat.id
-                ? "text-purple-600 border-b-2 border-purple-600"
-                : "text-black hover:text-gray-800",
-            )}
-          >
-            <span>{cat.icon}</span>
-            <span className="uppercase font-semibold">{cat.label}</span>
-          </button>
-        ))}
-        <div className="shrink-0 w-4 sm:w-6 md:w-8" aria-hidden="true" />
+      <div className="flex items-center gap-10 overflow-x-auto px-4 sm:px-6 md:px-8">
+        {categories.map((cat) => {
+          const isActive = activeTab === cat.id;
+
+          return (
+            <button
+              key={cat.id}
+              onClick={() => handleNavigation(cat.id)}
+              className={cn(
+                "flex flex-col items-center justify-center py-3 min-w-16",
+                "transition-colors duration-200 cursor-pointer",
+                isActive
+                  ? "text-purple-600"
+                  : "text-gray-500 hover:text-gray-700",
+              )}
+            >
+              <div className="flex gap-2">
+                <span className="text-xl leading-none">{cat.icon}</span>
+
+                <span className="mt-1 text-xs font-semibold uppercase">
+                  {cat.label}
+                </span>
+              </div>
+
+              <span
+                className={cn(
+                  "mt-2 h-[3px] w-full rounded-full transition-all",
+                  isActive ? "bg-purple-600" : "bg-transparent",
+                )}
+              />
+            </button>
+          );
+        })}
       </div>
     </div>
   );

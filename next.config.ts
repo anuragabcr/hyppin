@@ -5,22 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "encrypted-tbn0.gstatic.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "placehold.co",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "images.samsung.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "compujordan.com",
+        hostname: "i.ebayimg.com",
         pathname: "/**",
       },
       {
@@ -30,24 +15,22 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "png.pngtree.com",
+        hostname: "placehold.co",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "www.google.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "placeimg.com",
-        port: "",
+        hostname: "picsum.photos",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "api.escuelajs.co",
-        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "placeimg.com",
         pathname: "/**",
       },
     ],

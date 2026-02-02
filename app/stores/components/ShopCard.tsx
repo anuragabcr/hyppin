@@ -22,11 +22,8 @@ const getRatingColor = (rating: number) => {
 
 const ShopCard: React.FC<{ brand: Brand }> = ({ brand }) => {
   return (
-    // Card Wrapper
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 cursor-pointer">
-      {/* Image Section with Overlays */}
       <div className="relative w-full h-52">
-        {/* The Image */}
         <Image
           height={200}
           width={200}
@@ -36,9 +33,8 @@ const ShopCard: React.FC<{ brand: Brand }> = ({ brand }) => {
           className="w-full h-full object-cover"
         />
 
-        {/* Discount Tag */}
         {brand.discount && (
-          <span className="absolute bottom-4 left-4 bg-blue-600 text-white text-base font-bold px-3 py-1 rounded-md">
+          <span className="absolute top-4 left-4 md:top-auto lg:bottom-4 bg-blue-600 text-white text-base font-bold px-3 py-1 rounded-md shadow-sm">
             {brand.discount}
           </span>
         )}
