@@ -99,7 +99,7 @@ const ShopHeader: React.FC = () => {
   const shop = dummyShopData;
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4 md:p-8 bg-white">
+    <div className="w-full mx-auto p-4 md:p-8 pb-0 md:pb-0 bg-white">
       <div className="flex flex-col md:flex-row justify-between md:items-start gap-4 mb-6">
         <div className="space-y-2">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
@@ -121,7 +121,7 @@ const ShopHeader: React.FC = () => {
         </div>
 
         {/* Right Side: Ratings */}
-        <div className="flex-shrink-0 flex items-center gap-6 pt-2">
+        <div className="shrink-0 flex items-center gap-6 pt-2">
           <RatingBlock
             score={shop.ratings.inStore.score}
             count={shop.ratings.inStore.count}
@@ -131,7 +131,7 @@ const ShopHeader: React.FC = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap items-center gap-4 mb-8">
+      <div className="flex flex-wrap items-center gap-4 mb-2">
         <ActionButton icon={<MapPin className="w-5 h-5" />} label="Direction" />
         <ActionButton icon={<Share2 className="w-5 h-5" />} label="Share" />
         <ActionButton

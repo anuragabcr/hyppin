@@ -32,12 +32,12 @@ export default async function Home() {
       <ProductsCarousel
         title="Deals of the day"
         products={deals}
-        actionPath="/categories/1"
+        actionPath="/categories/men"
       />
       <CategoryCarousel
         title="Essentials"
         products={essentials}
-        actionPath="/categories/2"
+        actionPath="/categories/women"
       />
       <ProductGrid
         title="Shop by Category"

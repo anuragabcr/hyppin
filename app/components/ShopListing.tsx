@@ -102,7 +102,7 @@ const ShopListing: React.FC = () => {
             Fashion brands in Bengaluru
           </h2>
           <Link
-            href="/shops"
+            href="/stores"
             className="text-sm font-medium text-yellow-600 hover:text-yellow-700 hidden sm:block"
           >
             View All Shops &rarr;
@@ -114,7 +114,7 @@ const ShopListing: React.FC = () => {
           {fashionBrands.map((brand) => (
             <Link
               key={brand.id}
-              href={`/shops/${brand.id}`}
+              href={`/stores/${brand.id}`}
               className="block hover:scale-[1.02] transition-transform duration-300"
             >
               <ShopCard brand={brand} />

@@ -195,13 +195,13 @@ const ShopsPage: React.FC = () => {
       </div>
 
       {/* --- Shops Grid --- */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
+      <section className="mx-auto px-4 md:px-6 lg:px-8 py-8">
         {shops.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {shops.map((shop) => (
               <Link
                 key={shop.id}
-                href={`/shops/${shop.id}`}
+                href={`/stores/${shop.id}`}
                 className="block hover:scale-[1.02] transition-transform duration-300"
               >
                 <ShopCard key={shop.id} brand={shop} />

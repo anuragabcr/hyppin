@@ -24,7 +24,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gray-50/30">
       <CheckoutHeader currentStep={currentStep} />
 
-      <main className="py-8">
+      <main className="pb-8">
         {/* We pass the handleNext function to your components 
             so their "Place Order" or "Continue" buttons can trigger the switch */}
 

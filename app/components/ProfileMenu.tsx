@@ -55,12 +55,19 @@ export default function ProfileMenu() {
           <Link
             href={"/login"}
             className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
-            // onClick={() => {
-            //   setIsAuthModalOpen(true);
-            //   setIsProfileOpen(false);
-            // }}
+            onClick={() => {
+              // setIsAuthModalOpen(true);
+              setIsProfileOpen(false);
+            }}
           >
             Login
+          </Link>
+          <Link
+            href="/profile"
+            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+            onClick={() => setIsProfileOpen(false)}
+          >
+            My Profile
           </Link>
         </>
       ) : (

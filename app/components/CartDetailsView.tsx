@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
 import { useUI } from "../context/UIContext";
+import Link from "next/link";
 
 interface User {
   name: string;
@@ -200,16 +201,27 @@ export default function CartDetailsView({
           <div className="font-bold text-lg">{formatCurrency(grandTotal)}</div>
         </div>
 
-        <button
-          onClick={handleProceedClick}
-          className={`bg-green-600 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-700 transition cursor-pointer ${
-            isAuthenticated
-              ? "bg-green-600 hover:bg-green-700 text-white"
-              : "bg-red-600 hover:bg-red-700 text-white"
-          }`}
-        >
-          {ctaText}
-        </button>
+        {isAuthenticated ? (
+          <button
+            onClick={handleProceedClick}
+            className={`bg-green-600 text-white font-semibold px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-700 transition cursor-pointer ${
+              isAuthenticated
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : "bg-red-600 hover:bg-red-700 text-white"
+            }`}
+          >
+            {ctaText}
+          </button>
+        ) : (
+          <Link href={"/checkout"}>
+            <button
+              onClick={() => setIsCartModalOpen(false)}
+              className="w-full py-4 px-8 flex items-center justify-center text-black text-xl font-bold rounded-2xl border-none bg-linear-to-r from-[#FFCE1D] to-[#FFA500] hover:from-[#F0BD49] hover:to-[#E0AC3E] shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            >
+              Proceed to Checkout
+            </button>
+          </Link>
+        )}
       </div>
     </>
   );

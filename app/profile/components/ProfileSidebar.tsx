@@ -33,7 +33,7 @@ export const ProfileSidebar = ({
   activeTab,
   setActiveTab,
 }: ProfileSidebarProps) => (
-  <aside className="w-64 border-r border-gray-100 pr-6 space-y-2">
+  <aside className="w-64 border-none md:border-r border-gray-100 pr-6 space-y-2">
     {sidebarItems.map((item) => {
       const Icon = item.icon;
       const isActive = activeTab === item.id;
@@ -45,7 +45,7 @@ export const ProfileSidebar = ({
           onClick={() => setActiveTab(item.id)}
           className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sm font-semibold transition-all cursor-pointer ${
             isActive
-              ? "text-blue-600 bg-blue-50/50"
+              ? "text-blue-600 bg-blue-100/50"
               : isDanger
               ? "text-red-500 hover:bg-red-50"
               : "text-gray-600 hover:bg-gray-50"

@@ -49,6 +49,6 @@ export function getCategoryProducts(categoryId: number) {
       originalPrice: Math.round(item.price * 1.25),
       discount: 20,
       rating: 4.5,
-      href: `/product/${item.id}`,
+      href: `/products/${item.id}`,
     }));
 }

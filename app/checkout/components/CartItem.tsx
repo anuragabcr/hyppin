@@ -26,17 +26,7 @@ const CartItem: React.FC<CartItemProps> = ({
   quantity,
 }) => {
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      {/* Header Info */}
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-2xl font-semibold text-gray-800 tracking-tight">
-          {brand}
-        </h2>
-        <span className="text-blue-600 font-medium">
-          Delivery within 40 mins
-        </span>
-      </div>
-
+    <div className="max-w-4xl mx-auto p-1 md:px-4">
       {/* Card Container */}
       <div className="relative border border-gray-200 rounded-2xl p-4 flex gap-4 bg-white shadow-sm">
         {/* Product Image */}
