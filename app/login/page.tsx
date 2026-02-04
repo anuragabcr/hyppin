@@ -6,20 +6,41 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   ConfirmationResult,
+  sendSignInLinkToEmail,
 } from "firebase/auth";
 import { app } from "../lib/firebaseConfig";
 import { AuthLayout } from "./components/AuthLayout";
 import { PhoneInputForm } from "./components/PhoneInputForm";
 import { OtpVerifyForm } from "./components/OtpVerifyForm";
+import { EmailInputForm } from "./components/EmailInputForm";
 
 const auth = getAuth(app);
 
 export default function LoginPage() {
-  const [step, setStep] = useState<"phone" | "otp">("phone");
+  const [step, setStep] = useState<"phone" | "otp" | "email">("phone");
   const [phone, setPhone] = useState("");
   const [confirmationResult, setConfirmationResult] =
     useState<ConfirmationResult | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const handleSendMagicLink = async (email: string) => {
+    setLoading(true);
+    const actionCodeSettings = {
+      url: window.location.origin + "/login/finish-signup",
+      handleCodeInApp: true,
+    };
+
+    try {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      alert("Magic link sent! Check your inbox.");
+    } catch (error: any) {
+      console.error("Magic Link Error:", error);
+      alert(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!(window as any).recaptchaVerifier) {
@@ -71,12 +92,24 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      {step === "phone" ? (
-        <PhoneInputForm onContinue={handleSendOtp} isLoading={loading} />
-      ) : (
+      {step === "phone" && (
+        <PhoneInputForm
+          onContinue={handleSendOtp}
+          onGoogleClick={() => setStep("email")}
+          isLoading={loading}
+        />
+      )}
+      {step === "otp" && (
         <OtpVerifyForm
           phoneNumber={phone}
           onVerify={handleVerifyOtp}
+          isLoading={loading}
+        />
+      )}
+      {step === "email" && (
+        <EmailInputForm
+          onContinue={handleSendMagicLink}
+          onBack={() => setStep("phone")}
           isLoading={loading}
         />
       )}

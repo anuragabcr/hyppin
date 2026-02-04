@@ -3,10 +3,12 @@ import { FaGoogle } from "react-icons/fa";
 
 export const PhoneInputForm = ({
   onContinue,
+  onGoogleClick,
   isLoading,
 }: {
   onContinue: (phone: string) => void;
   isLoading: boolean;
+  onGoogleClick: () => void;
 }) => {
   const [val, setVal] = useState("");
   return (
@@ -48,7 +50,10 @@ export const PhoneInputForm = ({
           <div className="absolute top-1/2 left-0 w-full h-px bg-gray-100 z-0" />
         </div>
 
-        <button className="w-full flex items-center justify-center gap-3 py-4 border border-gray-100 rounded-xl font-bold text-sm text-gray-800 hover:bg-gray-50 transition-colors">
+        <button
+          className="w-full flex items-center justify-center gap-3 py-4 border border-gray-100 rounded-xl font-bold text-sm text-gray-800 hover:bg-gray-50 transition-colors cursor-pointer"
+          onClick={onGoogleClick}
+        >
           <FaGoogle size={20} />
           Log In with Google
         </button>

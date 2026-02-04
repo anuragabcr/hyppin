@@ -2,7 +2,6 @@ import CategoryCarousel from "./components/CategoryCarousel";
 import HeroSlider from "./components/HeroSlider";
 import ProductGrid from "./components/ProductGrid";
 import StoreSpotlight from "./components/StoreSpotlight";
-
 import ProductsCarousel from "./components/ProductCarousel";
 import OffersGrid from "./components/OffersGrid";
 import ShopListing from "./components/ShopListing";

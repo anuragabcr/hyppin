@@ -15,6 +15,7 @@ import SearchBar from "./SearchBar";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Breadcrumbs from "./Breadcrumbs";
+import { useSearchParams } from "next/navigation";
 
 export default function Header() {
   const { cart } = useCart();
@@ -23,12 +24,20 @@ export default function Header() {
     setIsCartModalOpen,
     isProfileOpen,
     setIsProfileOpen,
+    setIsAuthModalOpen,
   } = useUI();
 
   const pathname = usePathname();
   const showBreadcrumbs = pathname === "/" || pathname.includes("categories");
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("onboarding") === "true") {
+      setIsAuthModalOpen(true);
+    }
+  }, [searchParams, setIsAuthModalOpen]);
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
