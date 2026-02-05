@@ -34,7 +34,6 @@ export default function CartDrawer() {
         isCartModalOpen ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
-      {/* Overlay */}
       <div
         className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
           isCartModalOpen ? "opacity-100" : "opacity-0"
@@ -42,13 +41,11 @@ export default function CartDrawer() {
         onClick={() => setIsCartModalOpen(false)}
       />
 
-      {/* Drawer */}
       <div
         className={`absolute right-0 top-0 h-full w-full max-w-md bg-gray-50 shadow-xl transform transition-transform duration-300 rounded-l-xl overflow-y-auto ${
           isCartModalOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b bg-white">
           <h2 className="text-xl font-bold">
             {stage === "cart" ? "My Cart" : "Select Delivery Address"}
@@ -58,7 +55,6 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* --- Conditional View Rendering --- */}
         {!hasItems ? (
           <EmptyCartView />
         ) : stage === "cart" ? (
