@@ -1,40 +1,43 @@
-// app/api/auth/login/route.ts
-
-// 1. Import Next.js specific types
+import { adminAuth, db } from "../../../lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 
-// 2. Define the handler function corresponding to the HTTP method.
-//    If this route is for login/requesting OTP, you likely need POST.
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { phone } = body;
+    const { token, name = "", phone = "" } = await request.json();
+    console.log("Received registration request with token:", token);
 
-    if (!phone) {
-      return NextResponse.json(
-        { message: "Phone number is required" },
-        { status: 400 },
-      );
+    const decodedToken = await adminAuth.verifyIdToken(token);
+    const uid = decodedToken.uid;
+    const email = decodedToken.email;
+
+    const userRef = db.collection("users").doc(uid);
+    const userSnap = await userRef.get();
+    console.log("User document snapshot:", userSnap.exists);
+
+    if (!userSnap.exists) {
+      await userRef.set({
+        uid,
+        email,
+        name: name || "",
+        phone: phone || "",
+        role: "BUYER",
+        profileCompleted: Boolean(name || phone),
+        createdAt: new Date().toISOString(),
+        isActive: true,
+      });
+
+      await adminAuth.setCustomUserClaims(uid, { role: "BUYER" });
     }
 
-    // --- Authentication Logic Placeholder ---
-    // 1. Find user by phone number
-    // 2. Generate OTP
-    // 3. Send OTP via SMS service
-
-    // Successful response (moving to OTP verification stage)
-    return NextResponse.json(
-      { message: "OTP sent successfully", verificationToken: "xyz-token" },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error("Login/OTP Request Error:", error);
+    const err = error as Error;
+    console.error("Auth API Error:", err.message);
+
+    const status = err.message.includes("auth/") ? 401 : 500;
     return NextResponse.json(
-      { message: "Internal Server Error" },
-      { status: 500 },
+      { error: status === 401 ? "Unauthorized" : "Internal Server Error" },
+      { status },
     );
   }
 }
-
-// If you need to handle other methods, you would export them too:
-// export async function GET(request: Request) { ... }

@@ -12,12 +12,10 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => (
       />
     </div>
 
-    {/* Right Side: Form Content */}
     <div className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16">
       <div className="w-full max-w-md space-y-8">
         {children}
 
-        {/* Footer Links */}
         <p className="text-[10px] text-gray-400 leading-relaxed text-center lg:text-left mt-8">
           By creating an account or logging in, you agree with <br />
           Hyppin{" "}

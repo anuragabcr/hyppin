@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { app } from "../../lib/firebaseConfig";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function FinishSignUp() {
   const router = useRouter();
@@ -30,27 +31,42 @@ export default function FinishSignUp() {
             window.localStorage.removeItem("emailForSignIn");
 
             const token = await result.user.getIdToken();
-            const userData = {
-              uid: result.user.uid,
-              email: result.user.email,
-              token: token,
-            };
 
             const additionalInfo = getAdditionalUserInfo(result);
-            console.log("Additional User Info:", additionalInfo);
-            console.log("User Data:", userData);
-            console.log("Result:", result);
+            toast.success("Authentication successful!");
 
             if (additionalInfo?.isNewUser) {
-              localStorage.setItem("hyppin_user", JSON.stringify(userData));
+              await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token }),
+              });
+            }
+
+            const profileRes = await fetch("/api/auth/me", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token }),
+            });
+
+            const profile = await profileRes.json();
+
+            const userData = {
+              token,
+              ...profile,
+            };
+
+            localStorage.setItem("hyppin_user", JSON.stringify(userData));
+
+            if (additionalInfo?.isNewUser || !profile.profileCompleted) {
               router.push("/?onboarding=true");
             } else {
-              localStorage.setItem("hyppin_user", JSON.stringify(userData));
               router.push("/");
             }
           })
           .catch((error) => {
             console.error("Verification Error:", error);
+            toast.error("Authentication failed. Please try again.");
             router.push("/login");
           });
       }
