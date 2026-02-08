@@ -1,7 +1,9 @@
 "use client";
 
+import { fetchAddressFromCoords } from "@/app/lib/geocoding";
 import { Briefcase, Check, Home, MapPin, Phone, User } from "lucide-react";
 import { useState } from "react";
+import { HiOutlineMapPin } from "react-icons/hi2";
 import { toast } from "sonner";
 
 interface Address {
@@ -40,7 +42,7 @@ export const AddressForm = ({
     type: initial?.type || "Home",
     isDefault: initial?.isDefault || false,
   });
-
+  const [isDetecting, setIsDetecting] = useState(false);
   const [touched, setTouched] = useState(false);
 
   const token = JSON.parse(localStorage.getItem("hyppin_user") || "{}")?.token;
@@ -81,12 +83,56 @@ export const AddressForm = ({
     }
   };
 
+  const handleAutoFill = () => {
+    if (!navigator.geolocation) return toast.error("Geolocation not supported");
+
+    setIsDetecting(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const data = await fetchAddressFromCoords(
+            pos.coords.latitude,
+            pos.coords.longitude,
+          );
+
+          // Auto-fill the form state
+          setForm((prev) => ({
+            ...prev,
+            address: data.address,
+            city: data.city,
+            pincode: data.pincode,
+            state: data.state,
+            locality: data.locality,
+          }));
+          toast.success("Location detected!");
+        } catch (err) {
+          console.error("Geocoding Error:", err);
+          toast.error("Could not fetch address details");
+        } finally {
+          setIsDetecting(false);
+        }
+      },
+      () => {
+        setIsDetecting(false);
+        toast.error("Location permission denied");
+      },
+    );
+  };
+
   return (
     <div className=" mx-auto border border-gray-100 rounded-3xl p-8 bg-white shadow-2xl shadow-gray-200/50 space-y-7 animate-in fade-in zoom-in-95 duration-300">
       <div className="flex items-center justify-between border-b pb-4">
         <h2 className="text-xl font-black text-gray-900">
           {form.id ? "Edit Address" : "Add New Address"}
         </h2>
+        <button
+          onClick={handleAutoFill}
+          disabled={isDetecting}
+          className="flex items-center gap-2 text-[10px] font-bold bg-gray-100 px-3 py-1.5 rounded-full hover:bg-yellow-100 transition-colors disabled:opacity-50 cursor-pointer"
+        >
+          <HiOutlineMapPin className={isDetecting ? "animate-bounce" : ""} />
+          {isDetecting ? "DETECTING..." : "USE CURRENT LOCATION"}
+        </button>
         <MapPin className="text-yellow-500" size={24} />
       </div>
 

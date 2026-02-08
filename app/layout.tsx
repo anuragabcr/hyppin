@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { AppProviders } from "./context/Providers";
 import { Toaster } from "sonner";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,9 @@ export default function RootLayout({
       >
         <Analytics />
         <AppProviders>
-          <Header />
+          <Suspense fallback={<div className="h-20 bg-white" />}>
+            <Header />
+          </Suspense>
           {children}
           <Toaster position="top-right" richColors />
           <Footer />

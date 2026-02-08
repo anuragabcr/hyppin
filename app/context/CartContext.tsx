@@ -1,8 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-// --- 1️⃣ Types ---
 export interface CartItem {
   id: string;
   name: string;
@@ -20,45 +19,78 @@ interface CartContextType {
   totalAmount: number;
 }
 
-// --- 2️⃣ Context Creation ---
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// --- 3️⃣ Provider Component ---
-export const CartProvider = ({ children }: { children: ReactNode }) => {
+export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Add item or increase quantity if already in cart
+  const token = JSON.parse(localStorage.getItem("hyppin_user") || "{}")?.token;
+
+  useEffect(() => {
+    const guestCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (!token) {
+      setCart(guestCart);
+      return;
+    }
+
+    fetch("/api/cart", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => r.json())
+      .then(async (dbCart) => {
+        const merged = mergeCarts(dbCart, guestCart);
+
+        setCart(merged);
+
+        await fetch("/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(merged),
+        });
+
+        localStorage.removeItem("cart");
+      });
+  }, [token]);
+
+  useEffect(() => {
+    if (!token) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(cart),
+      });
+    }
+  }, [cart, token]);
+
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
       const existing = prev.find((p) => p.id === item.id);
-      if (existing) {
+      if (existing)
         return prev.map((p) =>
           p.id === item.id ? { ...p, quantity: p.quantity + item.quantity } : p,
         );
-      }
       return [...prev, item];
     });
   };
 
-  // Remove item completely
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (id: string) =>
     setCart((prev) => prev.filter((p) => p.id !== id));
-  };
 
-  // Update quantity (e.g., + / - buttons)
-  const updateQuantity = (id: string, quantity: number) => {
-    if (quantity < 1) return removeFromCart(id);
+  const updateQuantity = (id: string, quantity: number) =>
     setCart((prev) => prev.map((p) => (p.id === id ? { ...p, quantity } : p)));
-  };
 
-  // Clear cart
   const clearCart = () => setCart([]);
 
-  // Total price
-  const totalAmount = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  const totalAmount = cart.reduce((a, i) => a + i.price * i.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -76,11 +108,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// --- 4️⃣ Hook for easy usage ---
-export const useCart = (): CartContextType => {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
-  return context;
+function mergeCarts(a: CartItem[], b: CartItem[]) {
+  const map = new Map<string, CartItem>();
+
+  [...a, ...b].forEach((item) => {
+    const existing = map.get(item.id);
+    if (existing)
+      map.set(item.id, {
+        ...item,
+        quantity: existing.quantity + item.quantity,
+      });
+    else map.set(item.id, item);
+  });
+
+  return Array.from(map.values());
+}
+
+export const useCart = () => {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart must be used inside provider");
+  return ctx;
 };

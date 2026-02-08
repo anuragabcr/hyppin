@@ -48,7 +48,7 @@ export const AddressCard = ({
         e.stopPropagation();
         onEdit();
       }}
-      className="text-blue-600 text-sm font-bold hover:underline underline-offset-4"
+      className="text-blue-600 text-sm font-bold hover:underline underline-offset-4 cursor-pointer"
     >
       edit
     </button>
