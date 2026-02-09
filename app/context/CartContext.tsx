@@ -28,14 +28,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const auth = getAuth(app);
 
-  // 1. Initial Load: Get cart from LocalStorage only on mount (Client-side)
   useEffect(() => {
     const guestCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(guestCart);
     setIsLoaded(true);
   }, []);
 
-  // 2. Sync Logic: Triggered when user logs in or cart changes
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -43,12 +41,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const user = auth.currentUser;
 
       if (!user) {
-        // Guest mode: Save to localStorage
         localStorage.setItem("cart", JSON.stringify(cart));
         return;
       }
 
-      // User logged in: Get a fresh token to avoid "Expired" error
       const token = await user.getIdToken();
 
       try {
@@ -65,7 +61,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    // Debounce the sync to avoid hitting Firebase quota on every click
     const timeout = setTimeout(sync, 1000);
     return () => clearTimeout(timeout);
   }, [cart, auth.currentUser, isLoaded]);
