@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { app } from "../lib/firebaseConfig";
 
 export interface CartItem {
   id: string;
@@ -23,53 +25,50 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const auth = getAuth(app);
 
-  const token = JSON.parse(localStorage.getItem("hyppin_user") || "{}")?.token;
-
+  // 1. Initial Load: Get cart from LocalStorage only on mount (Client-side)
   useEffect(() => {
     const guestCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCart(guestCart);
+    setIsLoaded(true);
+  }, []);
 
-    if (!token) {
-      setCart(guestCart);
-      return;
-    }
+  // 2. Sync Logic: Triggered when user logs in or cart changes
+  useEffect(() => {
+    if (!isLoaded) return;
 
-    fetch("/api/cart", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then(async (dbCart) => {
-        const merged = mergeCarts(dbCart, guestCart);
+    const sync = async () => {
+      const user = auth.currentUser;
 
-        setCart(merged);
+      if (!user) {
+        // Guest mode: Save to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+        return;
+      }
 
+      // User logged in: Get a fresh token to avoid "Expired" error
+      const token = await user.getIdToken();
+
+      try {
         await fetch("/api/cart", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(merged),
+          body: JSON.stringify(cart),
         });
+      } catch (err) {
+        console.error("Failed to sync cart to DB", err);
+      }
+    };
 
-        localStorage.removeItem("cart");
-      });
-  }, [token]);
-
-  useEffect(() => {
-    if (!token) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    } else {
-      fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(cart),
-      });
-    }
-  }, [cart, token]);
+    // Debounce the sync to avoid hitting Firebase quota on every click
+    const timeout = setTimeout(sync, 1000);
+    return () => clearTimeout(timeout);
+  }, [cart, auth.currentUser, isLoaded]);
 
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
@@ -107,22 +106,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     </CartContext.Provider>
   );
 };
-
-function mergeCarts(a: CartItem[], b: CartItem[]) {
-  const map = new Map<string, CartItem>();
-
-  [...a, ...b].forEach((item) => {
-    const existing = map.get(item.id);
-    if (existing)
-      map.set(item.id, {
-        ...item,
-        quantity: existing.quantity + item.quantity,
-      });
-    else map.set(item.id, item);
-  });
-
-  return Array.from(map.values());
-}
 
 export const useCart = () => {
   const ctx = useContext(CartContext);

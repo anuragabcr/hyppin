@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase-admin";
 import { adminAuth, db } from "../../lib/firebaseAdmin";
 import { NextResponse } from "next/server";
 
@@ -10,31 +11,48 @@ interface CartItem {
   [key: string]: unknown;
 }
 
-export async function GET(req: Request) {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "");
-  const decoded = await adminAuth.verifyIdToken(token!);
-
-  const snap = await db
-    .collection("users")
-    .doc(decoded.uid)
-    .collection("cart")
-    .get();
-
-  return NextResponse.json(snap.docs.map((d) => d.data()));
-}
-
 export async function POST(req: Request) {
-  const token = req.headers.get("authorization")?.replace("Bearer ", "");
-  const decoded = await adminAuth.verifyIdToken(token!);
+  try {
+    const token = req.headers.get("authorization")?.replace("Bearer ", "");
 
-  const items: CartItem[] = await req.json();
+    if (!token) {
+      return NextResponse.json({ error: "Missing token" }, { status: 401 });
+    }
+    const decoded = await adminAuth.verifyIdToken(token);
 
-  const ref = db.collection("users").doc(decoded.uid).collection("cart");
+    const items: CartItem[] = await req.json();
+    const cartRef = db.collection("users").doc(decoded.uid).collection("cart");
 
-  const existing = await ref.get();
-  await Promise.all(existing.docs.map((d) => d.ref.delete()));
+    const batch = db.batch();
 
-  await Promise.all(items.map((item: CartItem) => ref.doc(item.id).set(item)));
+    const existingSnap = await cartRef.get();
+    existingSnap.docs.forEach((doc) => batch.delete(doc.ref));
 
-  return NextResponse.json({ success: true });
+    items.forEach((item) => {
+      const docRef = cartRef.doc(item.id);
+      batch.set(docRef, { ...item, updatedAt: new Date().toISOString() });
+    });
+
+    await batch.commit();
+
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
+    console.error("Cart API Error:", error);
+
+    if (error && typeof error === "object" && "code" in error) {
+      const firebaseError = error as FirebaseError;
+
+      if (firebaseError.code === "auth/id-token-expired") {
+        return NextResponse.json(
+          { error: "Token expired", code: "TOKEN_EXPIRED" },
+          { status: 401 },
+        );
+      }
+    }
+
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }
