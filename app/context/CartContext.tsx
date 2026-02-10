@@ -78,12 +78,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const removeFromCart = (id: string) =>
     setCart((prev) => prev.filter((p) => p.id !== id));
-
   const updateQuantity = (id: string, quantity: number) =>
     setCart((prev) => prev.map((p) => (p.id === id ? { ...p, quantity } : p)));
-
   const clearCart = () => setCart([]);
-
   const totalAmount = cart.reduce((a, i) => a + i.price * i.quantity, 0);
 
   return (
