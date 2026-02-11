@@ -46,7 +46,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       const token = await user.getIdToken();
-
       try {
         await fetch("/api/cart", {
           method: "POST",
