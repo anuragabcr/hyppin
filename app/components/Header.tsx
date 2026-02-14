@@ -95,10 +95,8 @@ export default function Header() {
 
         <div className="flex items-center space-x-3 sm:space-x-6">
           <Link
-            href="/become-seller"
-            className="hidden sm:flex bg-brand-gradient text-black 
-             px-[clamp(1rem,3vw,5rem)] 
-             py-2 rounded-xl font-semibold text-sm whitespace-nowrap"
+            href="/seller"
+            className="hidden sm:flex bg-brand-gradient text-black px-[clamp(1rem,3vw,5rem)] py-2 rounded-xl font-semibold text-sm whitespace-nowrap"
           >
             Become Seller
           </Link>
@@ -159,7 +157,7 @@ export default function Header() {
             </div>
 
             <Link
-              href="/become-seller"
+              href="/seller"
               className="flex items-center gap-3 p-2 font-semibold"
               onClick={() => setIsMobileMenuOpen(false)}
             >
