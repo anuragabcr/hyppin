@@ -12,12 +12,10 @@ interface Brand {
   deliveryTime: number;
   rating: number;
   imageUrl: string;
-  discount?: string; // e.g., "50% OFF"
+  discount?: string;
   isPromoted?: boolean;
 }
 
-// --- 2. Create Dummy Data from the Image ---
-// Using placeholder images for demonstration
 const fashionBrands: Brand[] = [
   {
     id: 1,
@@ -87,16 +85,10 @@ const fashionBrands: Brand[] = [
   },
 ];
 
-// --- 3. Create the Reusable ShopCard Component ---
-
-// Helper function for dynamic rating color
-
-// --- 4. Create the Main Listing Page Component ---
 const ShopListing: React.FC = () => {
   return (
     <div className="bg-gray-100 w-full py-12">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
             Fashion brands in Bengaluru
@@ -109,8 +101,7 @@ const ShopListing: React.FC = () => {
           </Link>
         </div>
 
-        {/* Responsive Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-4">
           {fashionBrands.map((brand) => (
             <Link
               key={brand.id}

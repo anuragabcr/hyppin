@@ -89,7 +89,7 @@ export default function HeroSlider() {
 
   return (
     <section aria-label="Hero Slider">
-      <div className="relative h-[350px] rounded-lg overflow-hidden mx-4 my-8">
+      <div className="relative h-[220px] rounded-lg overflow-hidden mx-4 my-8">
         <div
           className="w-full h-full flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${index * 100}%)` }}

@@ -138,7 +138,7 @@ const LocationSelectionModal: React.FC<LocationSelectionModalProps> = ({
 
         <button
           onClick={handleUseCurrentLocation}
-          className="flex items-center justify-center w-full p-4 mb-4 text-white font-semibold bg-red-600 rounded-lg hover:bg-red-700 transition duration-150 ease-in-out shadow-md cursor-pointer"
+          className="flex items-center justify-center w-full p-4 mb-4 text-white font-semibold bg-yellow-400 rounded-lg hover:bg-yellow-500 transition duration-150 ease-in-out shadow-md cursor-pointer"
         >
           <HiOutlineMapPin className="w-5 h-5 mr-3" />
           Use My Current Location
@@ -159,12 +159,12 @@ const LocationSelectionModal: React.FC<LocationSelectionModalProps> = ({
             placeholder="Enter location or ZIP code"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full py-3 pl-10 pr-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full py-3 pl-10 pr-4 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300"
           />
           <button
             onClick={handleSearchLocation}
             disabled={!searchTerm.trim()}
-            className="absolute right-0 top-0 h-full px-4 text-white font-semibold bg-red-600 rounded-r-lg hover:bg-red-700 disabled:bg-red-300 transition duration-150 ease-in-out"
+            className="absolute right-0 top-0 h-full px-4 text-white font-semibold bg-yellow-600 rounded-r-lg hover:bg-yellow-700 disabled:bg-yellow-300 transition duration-150 ease-in-out"
           >
             Find
           </button>

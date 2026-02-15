@@ -106,11 +106,11 @@ export default function ProductCarousel({
 
           <div
             ref={containerRef}
-            className="flex gap-6 overflow-x-auto scroll-smooth pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide"
+            className="flex gap-2 sm:gap-3 overflow-x-auto scroll-smooth pb-6 -mx-4 sm:mx-0 px-2 sm:px-4 scrollbar-hide"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {products.map((product) => (
-              <div key={product.id} className="shrink-0 w-[280px] sm:w-[300px]">
+              <div key={product.id} className="shrink-0 w-[220px]">
                 <CategoryCard {...product} isBrandCentered={isBrandCentered} />
               </div>
             ))}

@@ -33,13 +33,13 @@ export default function ProductGrid({
         setVisibleCount(4);
       } else if (width < 768) {
         setColumns(2);
-        setVisibleCount(6);
+        setVisibleCount(8);
       } else if (width < 1024) {
         setColumns(3);
-        setVisibleCount(6);
+        setVisibleCount(10);
       } else {
         setColumns(4);
-        setVisibleCount(8);
+        setVisibleCount(12);
       }
     };
 
@@ -81,7 +81,7 @@ export default function ProductGrid({
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 lg:gap-4">
           {products
             .slice(0, visibleCount)
             .map((product) => renderCard(product))}

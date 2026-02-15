@@ -10,14 +10,14 @@ interface Brand {
   deliveryTime: number;
   rating: number;
   imageUrl: string;
-  discount?: string; // e.g., "50% OFF"
+  discount?: string;
   isPromoted?: boolean;
 }
 
 const getRatingColor = (rating: number) => {
   if (rating >= 4.0) return "bg-green-600";
   if (rating >= 3.0) return "bg-yellow-500";
-  return "bg-red-600"; // For ratings below 3
+  return "bg-red-600";
 };
 
 const ShopCard: React.FC<{ brand: Brand }> = ({ brand }) => {
@@ -39,7 +39,6 @@ const ShopCard: React.FC<{ brand: Brand }> = ({ brand }) => {
           </span>
         )}
 
-        {/* Rating Tag */}
         <div
           className={`absolute bottom-4 right-4 ${getRatingColor(
             brand.rating,
@@ -50,23 +49,20 @@ const ShopCard: React.FC<{ brand: Brand }> = ({ brand }) => {
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-4">
-        {/* Title */}
         <h3 className="text-lg font-bold text-gray-800 truncate">
           {brand.name}
         </h3>
 
-        {/* Cuisines */}
         <p className="text-base text-gray-600 truncate">
           {brand.categories.join(", ")}
         </p>
 
         {/* Price & Time */}
-        <div className="flex justify-between items-center text-sm text-gray-500 mt-3 border-t pt-3">
+        {/* <div className="flex justify-between items-center text-sm text-gray-500 mt-3 border-t pt-3">
           <span>₹{brand.avgPrice} for one</span>
           <span>{brand.deliveryTime} min</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

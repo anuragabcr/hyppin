@@ -1,86 +1,72 @@
-import React from "react";
+"use client";
 
-interface OnboardingStep {
-  id: number;
-  title: string;
-  description?: string;
-}
+import { Check } from "lucide-react";
 
-const steps: OnboardingStep[] = [
-  { id: 1, title: "Business Details", description: "Business Details" },
-  { id: 2, title: "Seller Details" },
-  { id: 3, title: "Bank Details" },
-  { id: 4, title: "Digital Signature" },
-  { id: 5, title: "Verify & Submit" },
-];
-
-interface OnboardingSidebarProps {
+interface Props {
   currentStep: number;
 }
 
-const OnboardingSidebar: React.FC<OnboardingSidebarProps> = ({
-  currentStep,
-}) => {
+const STEPS = [
+  "Business Details",
+  "Seller Details",
+  "Bank Details",
+  "Digital Signature",
+  "Verify & Submit",
+];
+
+export default function OnboardingSidebar({ currentStep }: Props) {
   return (
-    <aside className="w-80 min-h-screen bg-[#F8FAFF] p-8 border-r border-gray-100">
-      <div className="flex flex-col gap-0">
-        {steps.map((step, index) => {
-          const isActive = currentStep === step.id;
-          const isCompleted = currentStep > step.id;
-          const isLast = index === steps.length - 1;
+    <div className="w-72 p-6 ">
+      <div className="relative space-y-6">
+        <div className="absolute left-4 top-2 bottom-2 w-px bg-gray-200" />
+
+        <div
+          className="absolute left-4 top-2 w-px bg-yellow-400 transition-all"
+          style={{
+            height: `${(currentStep - 1) * 64}px`,
+          }}
+        />
+
+        {STEPS.map((label, index) => {
+          const step = index + 1;
+          const isActive = step === currentStep;
+          const isDone = step < currentStep;
 
           return (
-            <div key={step.id} className="relative flex flex-col">
+            <div key={label} className="relative flex items-center gap-4">
               <div
-                className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-300 ${
-                  isActive
-                    ? "bg-[#1E61F0] text-white shadow-lg"
-                    : "text-gray-500"
-                }`}
-              >
-                <div
-                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 font-semibold text-sm transition-colors ${
+                className={`z-10 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all
+                  ${
                     isActive
-                      ? "bg-white text-[#1E61F0] border-white"
-                      : isCompleted
-                      ? "border-amber-400 text-amber-500 bg-white"
-                      : "border-gray-300 text-gray-400 bg-white"
-                  }`}
-                >
-                  {step.id}
-                </div>
-
-                <div className="flex flex-col">
-                  <span
-                    className={`font-semibold ${
-                      isActive ? "text-white" : "text-[#334155]"
-                    }`}
-                  >
-                    {step.title}
-                  </span>
-                  {step.description && isActive && (
-                    <span className="text-xs text-blue-100">
-                      {step.description}
-                    </span>
-                  )}
-                </div>
+                      ? "bg-blue-600 text-white w-10"
+                      : isDone
+                      ? "bg-green-300 border-2 border-green-400 text-green-600"
+                      : "bg-white border-2 border-gray-300 text-gray-400"
+                  }
+                `}
+              >
+                {!isDone ? step : <Check />}
               </div>
 
-              {!isLast && (
-                <div className="ml-5 h-10 w-0.5 relative">
-                  <div
-                    className={`absolute inset-0 transition-colors duration-500 ${
-                      isCompleted ? "bg-amber-400" : "bg-gray-200"
-                    }`}
-                  />
+              {/* Label */}
+              {isActive ? (
+                <div className="bg-blue-600 text-white px-4 py-2 rounded-xl w-full shadow-sm">
+                  <div className="font-semibold">{label}</div>
+                  <div className="text-xs opacity-80">{label}</div>
+                </div>
+              ) : (
+                <div
+                  className={`text-sm font-medium ${
+                    isDone ? "text-green-600" : "text-gray-400"
+                  }`}
+                >
+                  {label}
                 </div>
               )}
             </div>
           );
         })}
       </div>
-    </aside>
+    </div>
   );
-};
-
-export default OnboardingSidebar;
+}

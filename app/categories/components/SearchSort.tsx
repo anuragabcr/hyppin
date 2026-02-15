@@ -27,7 +27,7 @@ export default function SearchSort({
 }: SearchSortProps) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div className="relative w-full sm:max-w-md">
+      {/* <div className="relative w-full sm:max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
         <input
           type="text"
@@ -43,7 +43,8 @@ export default function SearchSort({
             placeholder:text-muted
           "
         />
-      </div>
+      </div> */}
+      <div></div>
 
       <div className="flex gap-2 justify-between">
         <div className="relative">

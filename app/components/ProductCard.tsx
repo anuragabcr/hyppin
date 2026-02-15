@@ -29,7 +29,7 @@ export default function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="group relative flex flex-col w-full max-w-[300px] overflow-hidden rounded-xl bg-white transition-all duration-300"
+      className="group relative flex flex-col w-full max-w-[200px] overflow-hidden rounded-xl bg-white transition-all duration-300"
     >
       <div className="relative w-full aspect-3/4 bg-gray-100 rounded-xl overflow-hidden">
         <Image
@@ -60,7 +60,7 @@ export default function ProductCard({
 
       <div className="pt-4">
         <h3 className="text-xl font-bold text-black">{brand}</h3>
-        <p className="text-gray-600 mt-1">{name}</p>
+        <p className="text-gray-600 mt-1 truncate max-w-full">{name}</p>
 
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center gap-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, UserRound, Heart, Menu, X } from "lucide-react";
+import { MapPin, UserRound, Heart } from "lucide-react";
 import { FaChevronDown } from "react-icons/fa";
 import { useCart } from "@/app/context/CartContext";
 import FilterTabs from "./FilterTabs";
@@ -59,7 +59,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white">
       <div className="flex items-center justify-between h-20 px-4 sm:px-6 border-b border-gray-200">
         <div className="flex items-center gap-4">
-          <button
+          {/* <button
             className="sm:hidden p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -68,25 +68,31 @@ export default function Header() {
             ) : (
               <Menu className="h-6 w-6" />
             )}
-          </button>
+          </button> */}
           <Link href="/" className="text-2xl sm:text-3xl font-bold text-black">
             HYPPIN
           </Link>
         </div>
         <div
-          className="hidden sm:flex flex-row items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 mx-1 sm:mx-2 md:mx-4 rounded transition"
           onClick={() => setIsLocationModalOpen(true)}
+          className="hidden sm:flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 mx-1 sm:mx-2 md:mx-4 rounded transition"
         >
-          <MapPin className="h-6 w-6 text-skybolt-blue" />
-          <div className="text-sm">
+          <MapPin className="h-5 w-5 text-skybolt-blue shrink-0" />
+
+          {/* TEXT */}
+          <div className="text-sm min-w-0">
+            {/* Desktop only */}
             <p className="font-bold text-gray-900 leading-none">
               Delivery in 11 mins
             </p>
-            <p className="text-gray-600 truncate min-w-32 max-w-60">
+
+            {/* Always visible */}
+            <p className="text-gray-600 truncate max-w-[140px] sm:max-w-60">
               {selectedLocation}
             </p>
           </div>
-          <FaChevronDown className="h-3 w-3" />
+
+          <FaChevronDown className="h-3 w-3 text-gray-400 shrink-0" />
         </div>
 
         <div className="hidden lg:block flex-1 mx-4">
@@ -100,17 +106,21 @@ export default function Header() {
           >
             Become Seller
           </Link>
-          <div className="relative">
+          <MapPin
+            className="block sm:hidden h-5 w-5 text-skybolt-blue shrink-0"
+            onClick={() => setIsLocationModalOpen(true)}
+          />
+          <div className="flex relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="hidden sm:block items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer "
+              className="items-center space-x-2 text-gray-700 hover:text-indigo-600 transition cursor-pointer "
             >
               <UserRound className="h-6 w-6 text-skybolt-blue" />
             </button>
             <ProfileMenu />
           </div>
 
-          <Link href="/wishlist" className="hidden sm:block">
+          <Link href="/wishlist" className="">
             <Heart className="h-6 w-6 text-skybolt-blue" />
           </Link>
 

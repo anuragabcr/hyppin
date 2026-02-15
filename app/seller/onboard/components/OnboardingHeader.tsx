@@ -1,67 +1,49 @@
-import React from "react";
-import Image from "next/image";
-import { LuPower } from "react-icons/lu";
+"use client";
 
-interface OnboardingHeaderProps {
+import Image from "next/image";
+import { LogOut } from "lucide-react";
+
+interface Props {
   currentStep: number;
-  totalSteps: number;
-  onLogout: () => void;
+  totalSteps?: number;
+  onLogout?: () => void;
 }
 
-const OnboardingHeader: React.FC<OnboardingHeaderProps> = ({
+export default function OnboardingHeader({
   currentStep,
-  totalSteps,
+  totalSteps = 5,
   onLogout,
-}) => {
-  const progressPercentage = Math.round((currentStep / totalSteps) * 100);
+}: Props) {
+  const percentage = Math.round((currentStep / totalSteps) * 100);
 
   return (
-    <header className="flex w-full items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
-      <div className="flex items-center gap-6">
-        <div className="flex items-center border-r border-gray-200 pr-6">
-          <Image
-            src="/images/logo.svg"
-            alt="Hyppin Logo"
-            width={100}
-            height={30}
-            className="h-auto w-auto"
-          />
+    <div className="w-full bg-white/70 backdrop-blur-md border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center gap-6 w-full pr-2 md:pr-6">
+        <Image src="/images/logo2.svg" alt="Hyppin" width={175} height={32} />
+        <div className="hidden sm:block text-sm font-medium text-gray-600">
+          Step {currentStep} of {totalSteps}
         </div>
-
-        <div className="flex items-center gap-4">
-          <span className="whitespace-nowrap text-sm font-medium text-gray-600">
-            Step {currentStep} of {totalSteps}
-          </span>
-
-          <div className="relative h-2 w-48 overflow-hidden rounded-full bg-gray-100 md:w-64 lg:w-96">
+        <div className="flex-1">
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="absolute h-full bg-blue-600 transition-all duration-500 ease-in-out"
-              style={{ width: `${progressPercentage}%` }}
-            />
-            <div
-              className="absolute h-full bg-amber-400 transition-all duration-500 ease-in-out"
-              style={{
-                width: "15%",
-                left: `${Math.max(0, progressPercentage - 15)}%`,
-              }}
+              className="h-full bg-linear-to-r from-blue-800 to-yellow-400 transition-all duration-500 ease-in-out"
+              style={{ width: `${percentage}%` }}
             />
           </div>
+        </div>
 
-          <span className="whitespace-nowrap text-sm font-semibold text-amber-500">
-            {progressPercentage}% done
-          </span>
+        <div className="hidden sm:block text-sm font-semibold text-yellow-600 whitespace-nowrap">
+          {percentage}% done
         </div>
       </div>
 
       <button
         onClick={onLogout}
-        className="flex items-center gap-2 rounded-full border border-gray-300 px-4 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
+        className="flex items-center gap-2 text-sm font-medium text-gray-600 border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-100 transition"
       >
-        <LuPower className="text-lg" />
+        <LogOut size={16} />
         Logout
       </button>
-    </header>
+    </div>
   );
-};
-
-export default OnboardingHeader;
+}
