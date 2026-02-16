@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import {
+  ArrowUpDown,
   ChevronDown,
   ChevronUp,
   Search,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/app/lib/utils";
 import { FilterConfig, FilterOption } from "@/app/constants/filters";
+import { sortOptions } from "./SearchSort";
 
 export interface ProductFilters {
   sizes: string[];
@@ -24,6 +26,8 @@ interface FiltersSidebarProps {
   filtersConfig: FilterConfig[];
   filters: ActiveFilters;
   setFilters: (filters: ActiveFilters) => void;
+  sort: string;
+  onSortChange: (value: string) => void;
 }
 
 function FilterSection({
@@ -156,6 +160,8 @@ export default function FiltersSidebar({
   filtersConfig,
   filters,
   setFilters,
+  sort,
+  onSortChange,
 }: FiltersSidebarProps) {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(
     () => {
@@ -225,6 +231,29 @@ export default function FiltersSidebar({
             Clear All
           </button>
         )}
+      </div>
+      <div className="relative">
+        <select
+          value={sort}
+          onChange={(e) => onSortChange(e.target.value)}
+          className="
+            w-full
+            appearance-none
+            pl-10 pr-10 py-2.5
+            rounded-lg
+            border border-border
+            bg-background
+            font-medium
+          "
+        >
+          {sortOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              Sort by: {option.label}
+            </option>
+          ))}
+        </select>
+
+        <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
       </div>
 
       <div className="space-y-1">

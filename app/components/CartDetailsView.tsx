@@ -91,13 +91,13 @@ export default function CartDetailsView({
                   {/* Quantity Control */}
                   <div className="flex items-center justify-between mt-3">
                     {/* Qty Controller */}
-                    <div className="flex items-center bg-green-100 rounded-full px-3 py-1">
+                    <div className="flex items-center bg-blue-100 rounded-full px-3 py-1">
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
                         disabled={item.quantity <= 1}
-                        className="text-green-700 text-lg font-bold px-2 disabled:opacity-50"
+                        className="text-blue-700 text-lg font-bold px-2 disabled:opacity-50"
                       >
                         −
                       </button>
@@ -110,7 +110,7 @@ export default function CartDetailsView({
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
-                        className="text-green-700 text-lg font-bold px-2"
+                        className="text-blue-700 text-lg font-bold px-2"
                       >
                         +
                       </button>
@@ -216,7 +216,7 @@ export default function CartDetailsView({
           <Link href={"/checkout"}>
             <button
               onClick={() => setIsCartModalOpen(false)}
-              className="w-full py-4 px-8 flex items-center justify-center text-black text-xl font-bold rounded-2xl border-none bg-linear-to-r from-[#FFCE1D] to-[#FFA500] hover:from-[#F0BD49] hover:to-[#E0AC3E] shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+              className="w-full py-2 px-4 flex items-center justify-center text-black text-xl font-bold rounded-2xl border-none bg-linear-to-r from-[#FFCE1D] to-[#FFA500] hover:from-[#F0BD49] hover:to-[#E0AC3E] shadow-[0_4px_12px_rgba(0,0,0,0.1)] active:scale-[0.98] transition-all duration-200 cursor-pointer"
             >
               Proceed to Checkout
             </button>

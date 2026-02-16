@@ -47,7 +47,7 @@ export default function SearchSort({
       <div></div>
 
       <div className="flex gap-2 justify-between">
-        <div className="relative">
+        {/* <div className="relative">
           <select
             value={sort}
             onChange={(e) => onSortChange(e.target.value)}
@@ -69,7 +69,8 @@ export default function SearchSort({
           </select>
 
           <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
-        </div>
+        </div> */}
+        <div></div>
         <button
           onClick={setIsMobileFilterOpen}
           className="flex md:hidden lg:hidden p-2 border rounded-lg"

@@ -103,13 +103,13 @@ const ProductImageViewer = () => {
                 quantity: 1,
               });
             }}
-            className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-brand-yellow text-gray-900 hover:opacity-90 transition-all active:scale-95"
           >
-            🛒 ADD TO CART
+            ADD TO CART
           </button>
 
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-orange-600 text-white hover:bg-red-700 transition-colors">
-            ⚡ BUY NOW
+          <button className="flex-1 flex items-center justify-center gap-2 py-3 font-semibold text-base rounded-md bg-brand-gradient hover:bg-gray-800 transition-all active:scale-95">
+            BUY NOW
           </button>
         </div>
       </div>

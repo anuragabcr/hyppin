@@ -22,7 +22,7 @@ export default function EmptyCartView() {
       </p>
       <button
         onClick={() => setIsCartModalOpen(false)}
-        className="bg-red-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition cursor-pointer"
+        className="bg-yellow-400 text-white font-semibold px-6 py-3 rounded-lg hover:bg-yellow-500 transition cursor-pointer"
       >
         Start Shopping Now
       </button>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Star, CheckCircle, Info } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { FaStore } from "react-icons/fa";
 
 interface OfferLineProps {
   text: string;
@@ -143,7 +144,7 @@ const SpecList: React.FC<SpecListProps> = ({ title, items }) => (
             </>
           ) : (
             <>
-              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 flex-shrink-0"></span>
+              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 shrink-0"></span>
               {item}
             </>
           )}
@@ -317,26 +318,28 @@ const ProductDescription = () => {
           <h2 className="text-base font-medium text-gray-500 w-24 shrink-0">
             Color
           </h2>
-          <div className="flex space-x-3">
+          <div className="flex gap-3">
             {PRODUCT_DATA.colorOptions.map((color) => (
               <button
                 key={color.name}
                 onClick={() => setSelectedColor(color)}
-                className={`p-1 rounded-full border-2 transition-all duration-200 ${
+                className={`group relative p-0.5 rounded-full border-2 transition-all duration-200 ${
                   selectedColor.name === color.name
-                    ? "border-blue-500 shadow-md"
-                    : "border-transparent hover:border-gray-300"
+                    ? "border-brand-yellow shadow-sm scale-110" // Using your theme color
+                    : "border-transparent hover:border-gray-200"
                 }`}
                 title={color.name}
               >
-                <Image
-                  width={32}
-                  height={32}
-                  src={color.url}
-                  alt={color.name}
-                  unoptimized
-                  className="w-8 h-8 rounded-full object-cover"
+                {/* The Visual Color Swatch */}
+                <div
+                  className="w-8 h-8 rounded-full border border-black/5 shadow-inner"
+                  style={{ backgroundColor: color.hex }}
                 />
+
+                {/* Optional: Tooltip for name on hover */}
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+                  {color.name}
+                </span>
               </button>
             ))}
           </div>
@@ -413,20 +416,7 @@ const ProductDescription = () => {
         <div className="border rounded-xl p-5 flex items-center justify-between shadow-sm bg-white">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 text-blue-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 9l1 11h16l1-11M3 9h18M5 9V4h3v5M9 9V4h6v5M15 9V4h3v5"
-                />
-              </svg>
+              <FaStore />
             </div>
 
             {/* Seller Information */}

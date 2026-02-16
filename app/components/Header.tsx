@@ -16,6 +16,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Breadcrumbs from "./Breadcrumbs";
 import { useSearchParams } from "next/navigation";
+import { cn } from "../lib/utils";
 
 export default function Header() {
   const { cart } = useCart();
@@ -31,13 +32,34 @@ export default function Header() {
   const showBreadcrumbs = pathname === "/" || pathname.includes("categories");
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlHeader = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < lastScrollY || currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener("scroll", controlHeader);
+    return () => window.removeEventListener("scroll", controlHeader);
+  }, [lastScrollY]);
 
   useEffect(() => {
     if (searchParams.get("onboarding") === "true") {
       setIsAuthModalOpen(true);
     }
   }, [searchParams, setIsAuthModalOpen]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLocationSelect = (location: string) => {
     setSelectedLocation(location);
@@ -134,7 +156,7 @@ export default function Header() {
               height={24}
               width={24}
             />
-            {totalItems > 0 && (
+            {mounted && totalItems > 0 && (
               <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
                 {totalItems}
               </span>
@@ -144,9 +166,9 @@ export default function Header() {
       </div>
 
       {/* MOBILE SEARCH (Visible only on mobile below header) */}
-      <div className="lg:hidden px-4 py-2">
+      {/* <div className="lg:hidden px-4 py-2">
         <SearchBar />
-      </div>
+      </div> */}
 
       {/* MOBILE HAMBURGER MENU OVERLAY */}
       {isMobileMenuOpen && (
@@ -196,7 +218,28 @@ export default function Header() {
         </div>
       )}
 
-      {!showBreadcrumbs ? <Breadcrumbs /> : <FilterTabs />}
+      {/* COLLAPSIBLE SECTION: Search and Tabs */}
+      <div
+        className={cn(
+          "transition-all duration-300 ease-in-out overflow-hidden bg-white border-b border-gray-100 lg:h-auto",
+          // Mobile logic:
+          // If visible, height is full; if hidden, height is 0 on mobile only
+          isVisible
+            ? "max-h-40 opacity-100 translate-y-0"
+            : "max-h-0 opacity-0 -translate-y-4 lg:max-h-40 lg:opacity-100 lg:translate-y-0",
+        )}
+      >
+        {/* MOBILE SEARCH */}
+        <div className="lg:hidden px-4 py-2">
+          <SearchBar />
+        </div>
+
+        {/* BREADCRUMBS OR FILTER TABS */}
+        <div className="bg-white">
+          {!showBreadcrumbs ? <Breadcrumbs /> : <FilterTabs />}
+        </div>
+      </div>
+      {/* {!showBreadcrumbs ? <Breadcrumbs /> : <FilterTabs />} */}
       <LocationSelectionModal onLocationSelect={handleLocationSelect} />
       <AuthModal />
       <CartDrawer />

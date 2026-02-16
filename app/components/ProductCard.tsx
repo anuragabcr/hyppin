@@ -59,7 +59,9 @@ export default function ProductCard({
       </div>
 
       <div className="pt-4">
-        <h3 className="text-xl font-bold text-black">{brand}</h3>
+        <h3 className="text-xl font-bold text-black truncate max-w-full">
+          {brand}
+        </h3>
         <p className="text-gray-600 mt-1 truncate max-w-full">{name}</p>
 
         <div className="flex items-center justify-between mt-3">
