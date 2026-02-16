@@ -116,6 +116,8 @@ export default function ProductListingPage() {
             filters={filters}
             setFilters={setFilters}
             filtersConfig={filtersConfig}
+            sort={sortOrder}
+            onSortChange={setSortOrder}
           />
         </div>
       </aside>
@@ -151,6 +153,8 @@ export default function ProductListingPage() {
           filters={filters}
           setFilters={setFilters}
           filtersConfig={filtersConfig}
+          sort={sortOrder}
+          onSortChange={setSortOrder}
         />
       </MobileDrawer>
     </div>
