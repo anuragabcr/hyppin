@@ -9,7 +9,7 @@ import {
   signInWithPhoneNumber,
   sendSignInLinkToEmail,
 } from "firebase/auth";
-import { app } from "../../lib/firebaseConfig";
+import { app } from "../../../lib/firebaseConfig";
 import { toast } from "sonner";
 import SellerSidebar from "./components/SellerSidebar";
 import LoginCard from "./components/LoginCard";
