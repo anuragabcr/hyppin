@@ -1,13 +1,13 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { cn } from "../lib/utils";
 import { MdOutlineAllInclusive } from "react-icons/md";
 import { GiLargeDress } from "react-icons/gi";
 import { IoShirt } from "react-icons/io5";
 import { GiRunningShoe } from "react-icons/gi";
 import { PiWatchFill } from "react-icons/pi";
 import { FaStore } from "react-icons/fa";
+import { cn } from "@/app/lib/utils";
 
 const categories = [
   { label: "All", icon: <MdOutlineAllInclusive />, id: "all" },

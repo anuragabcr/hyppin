@@ -4,11 +4,11 @@
 import { useState, useMemo } from "react";
 import FiltersSidebar from "../components/FiltersSidebar";
 import SearchSort from "../components/SearchSort";
-import ProductGrid from "../../components/ProductGrid";
-import MobileDrawer from "../../components/MobileDrawer";
 import { CategoryId, FILTERS_BY_CATEGORY } from "@/app/constants";
 import { getCategoryProducts } from "@/app/lib/utils";
-import ShopListing from "@/app/components/ShopListing";
+import ProductGrid from "../../components/ProductGrid";
+import ShopListing from "../../components/ShopListing";
+import MobileDrawer from "../../components/MobileDrawer";
 
 interface ProductListingPageProps {
   categoryId: CategoryId;

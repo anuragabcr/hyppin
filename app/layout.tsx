@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/next";
-import { AppProviders } from "./context/Providers";
 import { Toaster } from "sonner";
 import { Suspense } from "react";
+import { AppProviders } from "./(buyer)/context/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,11 +41,9 @@ export default function RootLayout({
         <Analytics />
         <AppProviders>
           <Suspense fallback={<div className="h-20 bg-white" />}>
-            <Header />
+            {children}
+            <Toaster position="top-right" richColors />
           </Suspense>
-          {children}
-          <Toaster position="top-right" richColors />
-          <Footer />
         </AppProviders>
       </body>
     </html>

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
-import { app } from "../lib/firebaseConfig";
+import { app } from "@/app/lib/firebaseConfig";
 
 export interface CartItem {
   id: string;

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import ProductImageViewer from "./components/ProductImageViewer";
 import ProductDescription from "./components/ProductDescription";
-import Reviews from "@/app/stores/[shopId]/components/Reviews";
+import Reviews from "@/app/(buyer)/stores/[shopId]/components/Reviews";
 import ProductRatingSummary from "./components/ProductRatingSummary";
-import SimilarProducts from "@/app/components/SimilarProducts";
+import SimilarProducts from "../../components/SimilarProducts";
 
 interface ProductPageProps {
   params: Promise<{ productId: string }>;

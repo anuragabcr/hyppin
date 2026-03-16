@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import LightboxModal from "@/app/components/LightboxModal";
-import { useCart } from "@/app/context/CartContext";
+import { useCart } from "@/app/(buyer)/context/CartContext";
+import LightboxModal from "@/app/(buyer)/components/LightboxModal";
 
 interface GalleryImage {
   id: number;
@@ -33,7 +33,7 @@ const ProductImageViewer = () => {
         {IMAGE_URLS.map((url, index) => (
           <button
             key={index}
-            className={`flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg border-2 transition-all duration-200 focus:outline-none ${
+            className={`shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg border-2 transition-all duration-200 focus:outline-none ${
               mainImage === url
                 ? "border-orange-500 shadow-md"
                 : "border-gray-200 hover:border-gray-400"
@@ -53,7 +53,7 @@ const ProductImageViewer = () => {
       </div>
 
       {/* --- B. Main Image Viewer + Actions --- */}
-      <div className="flex flex-col flex-grow">
+      <div className="flex flex-col grow">
         {/* Image Viewer */}
         <div
           className="relative w-full bg-gray-50 rounded-md border border-gray-100 overflow-hidden cursor-zoom-in"

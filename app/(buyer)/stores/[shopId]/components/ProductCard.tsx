@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/app/context/CartContext";
+import { useCart } from "@/app/(buyer)/context/CartContext";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 
@@ -75,7 +75,7 @@ const ProductCard: React.FC<{ product: MenuItem }> = ({ product }) => {
       </div>
 
       {/* Product Details Area */}
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col grow">
         {/* Sponsored/Brand Tag */}
         <p className="text-xs text-gray-500 mb-1">
           {product.isSponsored && "Sponsored "}
@@ -84,7 +84,7 @@ const ProductCard: React.FC<{ product: MenuItem }> = ({ product }) => {
         </p>
 
         {/* Title */}
-        <h3 className="text-base font-medium text-gray-800 line-clamp-2 mb-2 flex-grow">
+        <h3 className="text-base font-medium text-gray-800 line-clamp-2 mb-2 grow">
           {product.name}
           {product.isAssured && <AssuredBadge />}
         </h3>

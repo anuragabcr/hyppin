@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import { Search, X, Clock, Zap, Plus } from "lucide-react";
-import Image from "next/image";
+import { Search, X, Clock, Zap } from "lucide-react";
 import Link from "next/link";
-import { useCart } from "@/app/context/CartContext";
 import ProductCard from "./ProductCard";
 
 // --- 1. Define Data Structures ---

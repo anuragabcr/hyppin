@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
-import { useCart } from "@/app/context/CartContext";
-import { useUI } from "../context/UIContext";
 import Link from "next/link";
+import { useCart } from "../context/CartContext";
+import { useUI } from "../context/UIContext";
 
 interface User {
   name: string;

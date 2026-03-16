@@ -6,7 +6,7 @@ import SearchSort from "./components/SearchSort";
 import ProductGrid from "../components/ProductGrid";
 import { Product } from "../components/ProductCarousel";
 import MobileDrawer from "../components/MobileDrawer";
-import { FILTERS_BY_CATEGORY } from "../constants";
+import { FILTERS_BY_CATEGORY } from "../../constants";
 
 export default function ProductListingPage() {
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);

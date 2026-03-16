@@ -5,7 +5,7 @@ import StoreSpotlight from "./components/StoreSpotlight";
 import ProductsCarousel from "./components/ProductCarousel";
 import OffersGrid from "./components/OffersGrid";
 import ShopListing from "./components/ShopListing";
-import { getCategoryProducts } from "./lib/utils";
+import { getCategoryProducts } from "../lib/utils";
 
 const veyraStoreData = {
   subtitle: "NEW STORES",

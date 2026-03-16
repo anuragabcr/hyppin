@@ -1,5 +1,4 @@
 import { topRatedProducts } from "@/app/constants/data/productStats";
-import Image from "next/image";
 
 export default function TopRatedProducts() {
   return (
@@ -10,13 +9,6 @@ export default function TopRatedProducts() {
         {topRatedProducts.map((product, i) => (
           <div key={i} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Image
-                src={product.image}
-                alt="Product Image"
-                fill
-                className="w-10 h-10 rounded-md"
-              />
-
               <span>{product.name}</span>
             </div>
 

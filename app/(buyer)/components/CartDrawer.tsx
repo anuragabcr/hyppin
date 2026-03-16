@@ -2,10 +2,10 @@
 
 import { HiX } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { useCart } from "@/app/context/CartContext";
 import CartDetailsView from "./CartDetailsView";
 import AddressSelectionView from "./AddressSelectionView";
 import EmptyCartView from "./EmptyCartView";
+import { useCart } from "../context/CartContext";
 import { useUI } from "../context/UIContext";
 
 type CartStage = "cart" | "address";

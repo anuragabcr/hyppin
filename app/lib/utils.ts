@@ -1,8 +1,8 @@
 // lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import productsData from "@/app/data/products.json";
-import type { Product as ApiProduct } from "../types/product";
+import productsData from "@/app/(buyer)/data/products.json";
+import type { Product as ApiProduct } from "../(buyer)/types/product";
 
 /**
  * A utility to combine conditional Tailwind class names safely

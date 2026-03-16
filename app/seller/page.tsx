@@ -7,6 +7,17 @@ const SellerPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    // --- START DEV SHORTCUT ---
+    // Remove this block once you want to test the actual login flow
+    const dummyUser = {
+      id: "123",
+      name: "John Doe",
+      role: "seller",
+      isOnboarded: true, // Setting this to true skips the onboarding page
+    };
+    localStorage.setItem("user", JSON.stringify(dummyUser));
+    // --- END DEV SHORTCUT ---
+
     const storedUser = localStorage.getItem("user");
 
     // 1. Check Login

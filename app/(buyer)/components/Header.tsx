@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { MapPin, UserRound, Heart } from "lucide-react";
 import { FaChevronDown } from "react-icons/fa";
-import { useCart } from "@/app/context/CartContext";
 import FilterTabs from "./FilterTabs";
 import { useEffect, useState } from "react";
 import ProfileMenu from "./ProfileMenu";
 import LocationSelectionModal from "./LocationSelectionModal";
 import AuthModal from "./AuthModal";
 import CartDrawer from "./CartDrawer";
-import { useUI } from "../context/UIContext";
 import SearchBar from "./SearchBar";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Breadcrumbs from "./Breadcrumbs";
 import { useSearchParams } from "next/navigation";
-import { cn } from "../lib/utils";
+import { useCart } from "../context/CartContext";
+import { useUI } from "../context/UIContext";
+import { cn } from "@/app/lib/utils";
 
 export default function Header() {
   const { cart } = useCart();

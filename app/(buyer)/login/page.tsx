@@ -9,13 +9,13 @@ import {
   sendSignInLinkToEmail,
   onAuthStateChanged,
 } from "firebase/auth";
-import { app } from "../lib/firebaseConfig";
 import { AuthLayout } from "./components/AuthLayout";
 import { PhoneInputForm } from "./components/PhoneInputForm";
 import { OtpVerifyForm } from "./components/OtpVerifyForm";
 import { EmailInputForm } from "./components/EmailInputForm";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { app } from "@/app/lib/firebaseConfig";
 
 const auth = getAuth(app);
 

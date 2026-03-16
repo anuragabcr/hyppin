@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useUI } from "../context/UIContext";
 import { getAuth, signOut } from "firebase/auth";
-import { app } from "../lib/firebaseConfig";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useUI } from "../context/UIContext";
+import { app } from "@/app/lib/firebaseConfig";
 
 interface User {
   name?: string;

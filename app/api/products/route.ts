@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import productsData from "@/app/data/products.json";
-import type { Product } from "@/app/types/product";
+import productsData from "@/app/(buyer)/data/products.json";
+import type { Product } from "@/app/(buyer)/types/product";
 
 // Tell TS what the JSON actually is
 const products = productsData as Product[];

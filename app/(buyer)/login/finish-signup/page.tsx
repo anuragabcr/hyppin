@@ -6,9 +6,9 @@ import {
   signInWithEmailLink,
   getAdditionalUserInfo,
 } from "firebase/auth";
-import { app } from "../../lib/firebaseConfig";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { app } from "@/app/lib/firebaseConfig";
 
 export default function FinishSignUp() {
   const router = useRouter();

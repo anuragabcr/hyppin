@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import LightboxModal from "@/app/components/LightboxModal";
+import LightboxModal from "@/app/(buyer)/components/LightboxModal";
 
 // --- 1. Define Types ---
 interface GalleryImage {
@@ -55,7 +55,7 @@ const ImageGallery: React.FC = () => {
           <button
             key={image.id}
             onClick={() => handleImageClick(image)}
-            className="aspect-[4/3] overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+            className="aspect-4/3 overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
           >
             <Image
               width={400}
